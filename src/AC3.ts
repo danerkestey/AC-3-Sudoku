@@ -29,6 +29,20 @@ export const ac3 = (csp: Sudoku, queue: any[] = []) => {
   }
 
   while (queue) {
-    const [xi, xj] = queue.shift();
+    const t = queue.shift();
+    const xi = t[0],
+      xj = t[1];
+
+    if (remove_inconsistent_values(csp, xi, xj)) {
+      if (csp.possibilities[xi].length === 0) {
+        return false;
+      }
+
+      for (const xk of csp.related_cells[xi]) {
+        if (xk != xi) {
+          queue.push([xk, xi]);
+        }
+      }
+    }
   }
 };
