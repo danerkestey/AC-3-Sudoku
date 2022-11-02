@@ -1,7 +1,15 @@
 import React from "react";
 import { FormControl } from "react-bootstrap";
 
-function Square({ id, value, disabled, style, onChange }) {
+type IProps = {
+  id: string;
+  value: string;
+  disabled: boolean;
+  style: React.CSSProperties | undefined;
+  onChange: any;
+};
+
+const Square: React.FC<IProps> = ({ id, value, disabled, style, onChange }) => {
   return (
     <FormControl
       className="square"
@@ -10,10 +18,10 @@ function Square({ id, value, disabled, style, onChange }) {
       value={value}
       onChange={(e) => onChange(e, id)}
       disabled={disabled}
-      maxLength="1"
+      maxLength={1}
       style={style}
     />
   );
-}
+};
 
 export default Square;

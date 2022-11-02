@@ -1,9 +1,16 @@
 import React from "react";
 import Square from "./Square";
 
-function Board({ startGrid, grid, onChange, disabled, popover }) {
+type IProps = {
+  startGrid: number[][];
+  grid: number[][];
+  onChange: any;
+  disabled: boolean;
+};
+
+const Board: React.FC<IProps> = ({ startGrid, grid, onChange, disabled }) => {
   const renderSquares = () => {
-    const squares = [];
+    const squares: any[] = [];
 
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
@@ -16,7 +23,7 @@ function Board({ startGrid, grid, onChange, disabled, popover }) {
             key={index}
             id={index}
             onChange={onChange}
-            value={grid[i][j] === 0 ? "" : grid[i][j]}
+            value={grid[i][j] === 0 ? "" : grid[i][j].toString()}
             disabled={disabled}
           />
         );
@@ -27,6 +34,6 @@ function Board({ startGrid, grid, onChange, disabled, popover }) {
   };
 
   return <div className="sudoku-grid shadow">{renderSquares()}</div>;
-}
+};
 
 export default Board;

@@ -5,12 +5,13 @@ import sudokuService, { EMPTY_GRID, EMPTY_START_GRID } from "../sudokuService";
 import storageService from "../storageService";
 
 export default function SudokuSolver() {
-  const [grid, setGrid] = useState(EMPTY_GRID);
-  const [startGrid, setStartGrid] = useState(EMPTY_START_GRID);
-  const [isGridDisabled, setIsGridDisabled] = useState(false);
-  const [isShowProcessChecked, setIsShowProcessChecked] = useState(true);
-  const [isSolved, setIsSolved] = useState(false);
-  const [isSolving, setIsSolving] = useState(false);
+  const [grid, setGrid] = useState<number[][]>(EMPTY_GRID);
+  const [startGrid, setStartGrid] = useState<number[][]>(EMPTY_START_GRID);
+  const [isGridDisabled, setIsGridDisabled] = useState<boolean>(false);
+  const [isShowProcessChecked, setIsShowProcessChecked] =
+    useState<boolean>(true);
+  const [isSolved, setIsSolved] = useState<boolean>(false);
+  const [isSolving, setIsSolving] = useState<boolean>(false);
   const progressSpeed = 5;
 
   useEffect(() => {
@@ -18,19 +19,20 @@ export default function SudokuSolver() {
     if (storageBoard) setGrid(storageBoard);
   }, []);
 
-  const handleValueChange = (e, id) => {
+  const handleValueChange = (e: { target: { value: string } }, id: string) => {
     const { value } = e.target;
-    if ((value <= 9 && value > 0) || value === "") {
+
+    if ((+value <= 9 && +value > 0) || value === "") {
       const position = id.split(",");
       const newGrid = grid.map((arr) => arr.slice());
       if (value === "") newGrid[position[0]][position[1]] = 0;
-      else newGrid[position[0]][position[1]] = Number(value);
+      else newGrid[position[0]][position[1]] = Number(+value);
       setGrid(newGrid);
       storageService.setBoard(newGrid);
     }
   };
 
-  const showProgress = async (progress) => {
+  const showProgress = async (progress: any[]) => {
     setIsGridDisabled(true);
     for (const grid of progress) {
       setGrid(grid);

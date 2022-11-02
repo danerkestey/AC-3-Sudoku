@@ -1,10 +1,10 @@
 export const EMPTY_GRID = () =>
-  new Array(9).fill(null).map(() => new Array(9).fill(0));
+  new Array(9).fill(null).map(() => new Array(9).fill(0)) as number[][];
 export const EMPTY_START_GRID = () =>
-  new Array(9).fill(null).map(() => new Array(9));
+  new Array(9).fill(null).map(() => new Array(9)) as number[][];
 
 class SudokuService {
-  solvingProcess = [];
+  solvingProcess: any[] = [];
 
   getRandomExample() {
     const examples = [
@@ -45,7 +45,7 @@ class SudokuService {
     return examples[Math.floor(Math.random() * examples.length)];
   }
 
-  findEmpty(grid) {
+  findEmpty(grid: string | any[]) {
     for (let i = 0; i < grid.length; i++) {
       for (let j = 0; j < grid[i].length; j++) {
         if (grid[i][j] === 0) return { i, j };
@@ -54,7 +54,7 @@ class SudokuService {
     return false;
   }
 
-  isSafe(grid, row, col, num) {
+  isSafe(grid: string | any[], row: number, col: number, num: number) {
     for (let i = 0; i < grid.length; i++) {
       if (grid[i][col] === num && i !== row) return false;
       if (grid[row][i] === num && i !== col) return false;
@@ -72,10 +72,10 @@ class SudokuService {
     return true;
   }
 
-  solveRecursive(grid) {
-    this.solvingProcess.push(grid.map((arr) => arr.slice()));
+  solveRecursive(grid: any[]) {
+    this.solvingProcess.push(grid.map((arr: string | any[]) => arr.slice()));
     const find = this.findEmpty(grid);
-    let position;
+    let position: { i: any; j: any };
     const nums = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     if (find) {
@@ -96,7 +96,7 @@ class SudokuService {
     return false;
   }
 
-  solve(grid) {
+  solve(grid: number[][]) {
     this.solvingProcess = [];
     this.solveRecursive(grid);
     return this.solvingProcess;
