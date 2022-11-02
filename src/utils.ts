@@ -27,3 +27,5 @@ export function getPermutations(array: string | any[], size: any) {
   p([], 0);
   return result;
 }
+
+export const is_different = (cell_i: any, cell_j: any) => cell_i != cell_j;
