@@ -18,6 +18,15 @@ export class Sudoku {
     this.binary_constraints = this.generate_binary_constraints(
       this.rule_constraints
     );
+    this.related_cells = this.generate_related_cells();
+    this.cells.forEach((value, index) => {
+      const temp = [];
+      if (grid[index] !== "0") {
+        temp.push(parseInt(grid[index]));
+      }
+
+      this.pruned[value] = temp;
+    });
   }
 
   generateCoords() {
@@ -121,5 +130,29 @@ export class Sudoku {
     }
 
     return generatedBinConsts;
+  }
+
+  generate_related_cells() {
+    const related_cells = {};
+
+    for (const cell of this.cells) {
+      related_cells[cell] = [];
+
+      for (const constraint of this.binary_constraints) {
+        if (cell === constraint[0]) {
+          related_cells[cell].push(constraint[1]);
+        }
+      }
+    }
+
+    return related_cells;
+  }
+
+  isFinished() {
+    this.possibilities.entries().forEach((_: any, possibility: any[]) => {
+      if (possibility.length > 1) return false;
+    });
+
+    return true;
   }
 }
