@@ -3,6 +3,17 @@
 import PySimpleGUI as gui
 from solver import SudokuSolver, SudokuPuzzleBox
 
+def buildPuzzle(values):
+    puzzle = [['0'] * 9 for _ in range(9)]
+
+    for i in range(9):
+        row = values[i]
+
+        for j in range(9):
+            puzzle[i][j] = row[j]
+
+    return puzzle
+
 gui.theme('GrayGrayGray')
 
 layout = [ 
@@ -27,19 +38,8 @@ while True:
     if event in (None, 'Exit'):
         break
     else:
-        print('hi')
+        puzzle = buildPuzzle(values)
+        print(puzzle)
+
 
 window.close()
-
-
-print(values[0])
-box1 = SudokuPuzzleBox([[values[0][1] for i in range(0,3)], [values[1] for i in range(0,3)], [values[2] for i in range(0,3)]])
-box1.printBox()
-
-
-#SudokuSolver()
-
-
-print(event, values[0], values[1], values[2] ,values[3])
-
-
