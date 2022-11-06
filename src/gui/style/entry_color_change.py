@@ -8,7 +8,7 @@
 # Colors
 SELECT_COLOR = "#bbdefb"
 HIGHLIGHT_COLOR = "#e2ebf3"
-WHITE_COLOR = "white" 
+WHITE_COLOR = "white"
 BLACK_COLOR = "black"
 FG_COLOR = "#2285e7"
 RED_COLOR = "#d2372d"
@@ -22,12 +22,13 @@ GREEN_COLOR = "#78db88"
 #   user Select entry cell
 def bg_to_blue(entry):
     entry.config(
-        bg = SELECT_COLOR
+        bg=SELECT_COLOR
     )
+
 
 def readonly_bg_to_blue(entry):
     entry.config(
-        readonlybackground = SELECT_COLOR
+        readonlybackground=SELECT_COLOR
     )
 
 
@@ -38,12 +39,13 @@ def readonly_bg_to_blue(entry):
 #   color for highlight (row|colums|box) when user select entry cell
 def bg_to_lightblue(entry):
     entry.config(
-        bg = HIGHLIGHT_COLOR
+        bg=HIGHLIGHT_COLOR
     )
+
 
 def readonly_bg_to_lightblue(entry):
     entry.config(
-        readonlybackground = HIGHLIGHT_COLOR
+        readonlybackground=HIGHLIGHT_COLOR
     )
 
 
@@ -54,12 +56,13 @@ def readonly_bg_to_lightblue(entry):
 #   set to default color
 def bg_to_white(entry):
     entry.config(
-        bg = WHITE_COLOR
+        bg=WHITE_COLOR
     )
+
 
 def readonly_to_white(entry):
     entry.config(
-        readonlybackground = WHITE_COLOR
+        readonlybackground=WHITE_COLOR
     )
 
 
@@ -67,7 +70,7 @@ def readonly_to_white(entry):
 
 def bg_to_red(entry):
     entry.config(
-        bg = LIGHTRED_COLOR
+        bg=LIGHTRED_COLOR
     )
 
 
@@ -75,7 +78,7 @@ def bg_to_red(entry):
 
 def bg_to_green(entry):
     entry.config(
-        bg = GREEN_COLOR
+        bg=GREEN_COLOR
     )
 
 
@@ -85,25 +88,31 @@ def bg_to_green(entry):
 # Blue
 def fg_to_blue(entry):
     entry.config(
-        fg = FG_COLOR
+        fg=FG_COLOR
     )
 
 # Black
+
+
 def reset_fg_to_black(entry):
     entry.config(
-        fg = BLACK_COLOR
+        fg=BLACK_COLOR
     )
 
 # Red
+
+
 def fg_to_red(entry):
     entry.config(
-        fg = RED_COLOR
+        fg=RED_COLOR
     )
 
 # White
+
+
 def fg_to_white(entry):
     entry.config(
-        fg = WHITE_COLOR
+        fg=WHITE_COLOR
     )
 
 

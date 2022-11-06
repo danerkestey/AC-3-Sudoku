@@ -9,9 +9,11 @@ from .RCB_position import *
 '''
 
 # Highlight RCB as per current selection
-def change_RCB_color(entry_list,readonly_board,x,y):
+
+
+def change_RCB_color(entry_list, readonly_board, x, y):
     # POS - all RCB indexs
-    _POS = get_RCB_pos(x,y)
+    _POS = get_RCB_pos(x, y)
 
     for i in range(len(_POS)):
         POS = _POS.pop()
@@ -20,19 +22,18 @@ def change_RCB_color(entry_list,readonly_board,x,y):
             readonly_bg_to_lightblue(entry_list[POS[0]][POS[1]])
         else:
             bg_to_lightblue(entry_list[POS[0]][POS[1]])
-    
+
     # change current selected color
     if readonly_board[x][y]:
         readonly_bg_to_blue(entry_list[x][y])
     else:
-        bg_to_blue(entry_list[x][y]) 
-
+        bg_to_blue(entry_list[x][y])
 
 
 # Remove Highlight color of RCB of previous selection
-def reset_RCB_color(entry_list,readonly_board,x,y):
+def reset_RCB_color(entry_list, readonly_board, x, y):
     # POS - all RCB indexs
-    _POS = get_RCB_pos(x,y)
+    _POS = get_RCB_pos(x, y)
 
     for i in range(len(_POS)):
         POS = _POS.pop()

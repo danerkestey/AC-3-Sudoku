@@ -1,5 +1,4 @@
 def solve(bo):
-    print(bo)
     find = find_empty(bo)
     if not find:
         return True

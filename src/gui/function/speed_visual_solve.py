@@ -4,7 +4,7 @@ from .solver import *
 from .entry_operations import (
     insert_value,
     delete_value,
-    update_values, 
+    update_values,
     collect_entry_values,
     update_values)
 
@@ -27,11 +27,13 @@ select_time = 0.00
 green_time = 0.05
 red_time = 0.04
 
+
 def stop_solving():
     global RUN
     RUN = False
 
-def setup_visual_solve(master,entry_list, hint_board, is_clear, is_visual):
+
+def setup_visual_solve(master, entry_list, hint_board, is_clear, is_visual):
     global IS_CLEAR, IS_VISUAL, HINT_BOARD, ENTRY_LIST, MASTER, RUN
 
     IS_CLEAR = is_clear
@@ -43,7 +45,7 @@ def setup_visual_solve(master,entry_list, hint_board, is_clear, is_visual):
 
 
 def speed_visual_solve(board):
-    
+
     # if game not generated | input by user
     if not IS_VISUAL and IS_CLEAR:
         solve(board)
@@ -63,13 +65,13 @@ def speed_visual_solve(board):
         else:
             row, col = find
 
-        for i in range(1,10):
-            
+        for i in range(1, 10):
+
             if IS_VISUAL and RUN:   # select
                 bg_to_red(ENTRY_LIST[row][col])
                 fg_to_white(ENTRY_LIST[row][col])
                 delete_value(ENTRY_LIST[row][col])
-                insert_value(ENTRY_LIST[row][col],i)
+                insert_value(ENTRY_LIST[row][col], i)
                 MASTER.update()
                 sleep(select_time)
 
@@ -78,10 +80,10 @@ def speed_visual_solve(board):
                 if IS_VISUAL and RUN:   # green / valid
                     bg_to_green(ENTRY_LIST[row][col])
                     delete_value(ENTRY_LIST[row][col])
-                    insert_value(ENTRY_LIST[row][col],i)
+                    insert_value(ENTRY_LIST[row][col], i)
                     MASTER.update()
                     sleep(green_time)
-                
+
                 board[row][col] = i
 
                 if speed_visual_solve(board):
@@ -93,7 +95,7 @@ def speed_visual_solve(board):
                     bg_to_red(ENTRY_LIST[row][col])
                     fg_to_white(ENTRY_LIST[row][col])
                     delete_value(ENTRY_LIST[row][col])
-                    insert_value(ENTRY_LIST[row][col],0)
+                    insert_value(ENTRY_LIST[row][col], 0)
                     MASTER.update()
                     sleep(red_time)
 
