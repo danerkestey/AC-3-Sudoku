@@ -1,3 +1,8 @@
 /node_modules/
 yarn.lock
 /__pycache__/
+/src/__pycache__/
+/src/gui/__pycache__/
+/src/gui/bot/__pycache__/
+/src/gui/function/__pycache__/
+/src/gui/style/__pycache__/
