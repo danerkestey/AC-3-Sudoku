@@ -4,7 +4,7 @@ import numpy as np
 from .style._style import STYLE
 from .style.entry_color_change import board_fg_to_blue
 
-from .function.only_digit import ONLY_DIGIT
+from .function.utils import ONLY_DIGIT
 from .function.RCB_color_change import *
 from .function.generate_game import gen_game
 from .function.entry_operations import (

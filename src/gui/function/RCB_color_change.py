@@ -1,5 +1,5 @@
 from src.gui.style.entry_color_change import *
-from .RCB_position import *
+from .utils import *
 
 '''
     { R : Row, C : Column, B : Box }
