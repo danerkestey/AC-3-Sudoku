@@ -1,4 +1,52 @@
+from src.gui.function.ac3 import AC3
+from src.gui.function.sudoku_class import Sudoku
+
+
+def turnBoardToString(bo):
+    string = ""
+    for i in range(len(bo)):
+        for j in range(len(bo[0])):
+            string += str(bo[i][j])
+    return string
+
+
+def turnStringToBoard(string):
+    bo = []
+    k = 9
+
+    print(string)
+    for i in range(len(string)):
+        if i % k == 0:
+            sub = string[i:i+k]
+            lst = []
+            for j in sub:
+                print(j)
+                lst.append(int(j))
+            bo.append(lst)
+    return bo
+
+
 def solve(bo):
+    grid = turnBoardToString(bo)
+    print(bo)
+    print(grid)
+    print("----------")
+    sudoku = Sudoku(grid)
+    AC3_result = AC3(sudoku)
+
+    if not AC3_result:
+        print("Board has no solution")
+        return False
+    else:
+        if sudoku.isFinished():
+            print("AC3 was enough to solve this sudoku!")
+            return True
+        else:
+            preprocessed = turnStringToBoard(str(sudoku))
+            backTrack(preprocessed)
+
+
+def backTrack(bo):
     find = find_empty(bo)
     if not find:
         return True
@@ -9,7 +57,7 @@ def solve(bo):
         if valid(bo, i, (row, col)):
             bo[row][col] = i
 
-            if solve(bo):
+            if backTrack(bo):
                 return True
 
             bo[row][col] = 0
