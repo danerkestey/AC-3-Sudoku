@@ -24,6 +24,14 @@ def turnStringToBoard(string):
     return bo
 
 
+def getHintBoard(gameBoard, originalBoard, hintBoard):
+    for i in range(len(hintBoard)):
+        for j in range(len(hintBoard[0])):
+            if gameBoard[i][j] != originalBoard[i][j]:
+                hintBoard[i][j] = 0
+    return hintBoard.copy()
+
+
 def solve(bo):
     # Solves by backtracking
     find = find_empty(bo)
