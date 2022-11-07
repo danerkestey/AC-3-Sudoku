@@ -196,24 +196,28 @@ class Sudoku:
     def __str__(self):
 
         output = ""
-        count = 1
+        for v in self.possibilities:
+            if len(self.possibilities[v]) > 1:
+                output += "0"
+            else:
+                output += str(self.possibilities[v][0])
 
-        # for each cell, print its value
-        for cell in self.cells:
+        # # for each cell, print its value
+        # for cell in self.cells:
 
-            # trick to get the right print in case of an AC3-finished sudoku
-            value = str(self.possibilities[cell])
-            if type(self.possibilities[cell]) == list:
-                value = str(self.possibilities[cell][0])
+        #     # trick to get the right print in case of an AC3-finished sudoku
+        #     value = str(self.possibilities[cell])
+        #     if type(self.possibilities[cell]) == list:
+        #         value = str(self.possibilities[cell][0])
 
-            output += value
+        #     output += value
 
-            # if we reach the end of the line,
-            # make a new line on display
-            # if count >= 9:
-            #     count = 0
-            #     output += "\n"
+        #     # if we reach the end of the line,
+        #     # make a new line on display
+        #     # if count >= 9:
+        #     #     count = 0
+        #     #     output += "\n"
 
-            # count += 1
+        #     # count += 1
 
         return output
