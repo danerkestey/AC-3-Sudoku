@@ -318,7 +318,7 @@ class GUI(STYLE):
         self.Hint_board = getHintBoard(
             preprocessed, self.Game_board, self.Hint_board)
         self.Game_board = preprocessed.copy()
-        update_board(self.Game_board, self.Entry_list)
+        # update_board(self.Game_board, self.Entry_list)
         update_values(self.Game_board, self.Entry_list, True)
         self.is_clear = False
 

@@ -4,7 +4,6 @@ from .solver import *
 from .entry_operations import (
     insert_value,
     delete_value,
-    update_values,
     update_values)
 
 from src.gui.style.entry_color_change import (
@@ -83,6 +82,7 @@ def speed_visual_solve(board):
                 board[row][col] = i
 
                 if speed_visual_solve(board):
+                    update_values(HINT_BOARD, ENTRY_LIST)
                     return True
 
                 board[row][col] = 0
