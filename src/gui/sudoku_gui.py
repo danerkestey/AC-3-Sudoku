@@ -180,28 +180,6 @@ class GUI(STYLE):
         clear_label_frame.grid(row=1, column=0, pady=self.Option_Frame_pady)
         # {1-2-2}
 
-        # {1-2-3} Help LabelFrame = [ Hint, Bot ]
-        # +------------------------------+
-        # |             HELP             |
-        # +------------------------------+
-        help_label_frame = tk.LabelFrame(option_frame, text="  HELP  ")
-        self.Option_Frame_Add_Style(help_label_frame)
-
-        hint_b = tk.Button(help_label_frame, text="Hint",
-                           command=self.hint_button_action)
-        self.Option_Button_Add_Style(hint_b)
-        hint_b.grid(row=0, column=0, padx=self.Option_Button_padx,
-                    pady=self.Option_Button_pady)
-
-        self.bot_b = tk.Button(help_label_frame, text="Bot",
-                               command=self.bot_button_action)
-        self.Option_Button_Add_Style(self.bot_b)
-        self.bot_b.grid(
-            row=0, column=1, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
-
-        help_label_frame.grid(row=2, column=0, pady=self.Option_Frame_pady)
-        # {1-2-3}
-
         # {1-2-3} Solve LabelFrame = [ visual, Speed ]
         # +------------------------------+
         # |            SOLVE             |
@@ -221,7 +199,7 @@ class GUI(STYLE):
         speed_game.grid(
             row=0, column=1, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
-        solve_label_frame.grid(row=3, column=0, pady=self.Option_Frame_pady)
+        solve_label_frame.grid(row=2, column=0, pady=self.Option_Frame_pady)
 
         # -------------------------------------------------
         ac3_label_frame = tk.LabelFrame(option_frame, text="  AC3  ")
@@ -233,7 +211,7 @@ class GUI(STYLE):
         ac3_button.grid(
             row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
-        ac3_label_frame.grid(row=4, column=0, pady=self.Option_Frame_pady)
+        ac3_label_frame.grid(row=3, column=0, pady=self.Option_Frame_pady)
         # {1-2-3}
 
         option_frame.grid(row=1, column=0)
@@ -325,15 +303,6 @@ class GUI(STYLE):
         self.is_clear = True
         self.Entry_Queue.clear()
 
-    # +------------------------------+
-    # |         Hint Action          |
-    # +------------------------------+
-    def hint_button_action(self):
-        # if board is clear it didn't insert hint value
-        if not self.is_clear:
-            insert_value(self.Entry_list[self.c_pos_x][self.c_pos_y],
-                         self.Hint_board[self.c_pos_x][self.c_pos_y])
-
     def ac3_action(self):
         grid = turnBoardToString(self.Game_board)
         sudoku = Sudoku(grid)
@@ -351,6 +320,7 @@ class GUI(STYLE):
         preprocessed = turnStringToBoard(str(sudoku))
         self.Game_board = preprocessed
         update_board(self.Game_board, self.Entry_list)
+
     # +---------------------------------------------+
     # |         Speed & Visual Solve Action         |
     # +---------------------------------------------+
@@ -395,30 +365,6 @@ class GUI(STYLE):
         # running -> False | if visual call
         if is_visual:
             self.stop_running()
-
-    # +------------------------------+
-    # |         Bot Action           |
-    # +------------------------------+
-    def bot_button_action(self):
-        bot = BOT()
-        if not self.is_clear:
-            pass
-        if not self.running:
-            self.start_running()
-            self.bot_b.config(text="Stop")
-            bot.auto_type(self.Game_board, self.Entry_list, self._master)
-            self.bot_b.config(text="Bot")
-            self.stop_running()
-        else:
-            bot.stop_bot()
-            self.stop_running()
-            self.bot_b.config(text="Bot")
-            board_fg_to_blue(self.Entry_list, self.Game_board)
-
-    # return current selected position
-
-    def get_c_pos(self):
-        return self.c_pos_x, self.c_pos_y
 
     # FILO to store last clicked entry
     def add_to_entry_queue(self, x, y):
