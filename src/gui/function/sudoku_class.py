@@ -1,5 +1,4 @@
 import itertools
-import sys
 
 # coordinates idea from @ https://github.com/speix/sudoku-solver/blob/master/sudoku.py
 rows = "123456789"
@@ -13,8 +12,6 @@ class Sudoku:
     """
 
     def __init__(self, grid):
-        game = list(grid)
-
         # generation of all the coords of the grid
         self.cells = list()
         self.cells = self.generate_coords()
@@ -100,8 +97,6 @@ class Sudoku:
             column_constraints.append([col + row for row in rows])
 
         # get square constraints
-        # how to split coords (non static):
-        # https://stackoverflow.com/questions/9475241/split-string-every-nth-character
         rows_square_coords = (cols[i:i+3] for i in range(0, len(rows), 3))
         rows_square_coords = list(rows_square_coords)
 
@@ -136,20 +131,12 @@ class Sudoku:
 
             binary_constraints = list()
 
-            # 2 because we want binary constraints
-            # solution taken from :
-            # https://stackoverflow.com/questions/464864/how-to-get-all-possible-combinations-of-a-list-s-elements
-
             # for tuple_of_constraint in itertools.combinations(constraint_set, 2):
             for tuple_of_constraint in itertools.permutations(constraint_set, 2):
                 binary_constraints.append(tuple_of_constraint)
 
             # for each of these binary constraints
             for constraint in binary_constraints:
-
-                # check if we already have this constraint saved
-                # = check if already exists
-                # solution from https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exist-in-a-list
                 constraint_as_list = list(constraint)
                 if(constraint_as_list not in generated_binary_constraints):
                     generated_binary_constraints.append(
@@ -201,23 +188,5 @@ class Sudoku:
                 output += "0"
             else:
                 output += str(self.possibilities[v][0])
-
-        # # for each cell, print its value
-        # for cell in self.cells:
-
-        #     # trick to get the right print in case of an AC3-finished sudoku
-        #     value = str(self.possibilities[cell])
-        #     if type(self.possibilities[cell]) == list:
-        #         value = str(self.possibilities[cell][0])
-
-        #     output += value
-
-        #     # if we reach the end of the line,
-        #     # make a new line on display
-        #     # if count >= 9:
-        #     #     count = 0
-        #     #     output += "\n"
-
-        #     # count += 1
 
         return output

@@ -5,14 +5,11 @@ from .entry_operations import (
     insert_value,
     delete_value,
     update_values,
-    collect_entry_values,
     update_values)
 
 from src.gui.style.entry_color_change import (
     bg_to_red,
     bg_to_green,
-    bg_to_blue,
-    fg_to_blue,
     fg_to_white
 )
 

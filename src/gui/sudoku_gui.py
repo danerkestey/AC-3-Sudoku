@@ -10,15 +10,12 @@ from .function.generate_game import gen_game
 from .function.entry_operations import (
     update_board,
     format_value,
-    insert_value,
     delete_value,
     restart_board,
     clear_all_board,
     collect_entry_values)
 from .function.valid_entry_color_change import is_valid
 from .function.speed_visual_solve import *
-
-from .bot.autotype import BOT
 
 
 class GUI(STYLE):

@@ -2,8 +2,6 @@ from src.gui.function.utils import is_different
 
 """
 Constraint Propagation with AC-3
-pseudo code found @ https://en.wikipedia.org/wiki/AC-3_algorithm
-python implementation inspired by http://aima.cs.berkeley.edu/python/csp.html
 """
 
 
