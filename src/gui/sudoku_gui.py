@@ -223,13 +223,17 @@ class GUI(STYLE):
 
         solve_label_frame.grid(row=3, column=0, pady=self.Option_Frame_pady)
 
-        ac3_button = tk.Button(solve_label_frame, text="AC3",
+        # -------------------------------------------------
+        ac3_label_frame = tk.LabelFrame(option_frame, text="  AC3  ")
+        self.Option_Frame_Add_Style(ac3_label_frame)
+
+        ac3_button = tk.Button(ac3_label_frame, text="AC3",
                                command=lambda: self.ac3_action())
         self.Option_Button_Add_Style(ac3_button)
         ac3_button.grid(
             row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
-        solve_label_frame.grid(row=4, column=0, pady=self.Option_Frame_pady)
+        ac3_label_frame.grid(row=4, column=0, pady=self.Option_Frame_pady)
         # {1-2-3}
 
         option_frame.grid(row=1, column=0)
