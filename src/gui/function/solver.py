@@ -25,10 +25,7 @@ def turnStringToBoard(string):
 
 
 def solve(bo):
-    backTrack(bo)
-
-
-def backTrack(bo):
+    # Solves by backtracking
     find = find_empty(bo)
     if not find:
         return True
@@ -39,7 +36,7 @@ def backTrack(bo):
         if valid(bo, i, (row, col)):
             bo[row][col] = i
 
-            if backTrack(bo):
+            if solve(bo):
                 return True
 
             bo[row][col] = 0

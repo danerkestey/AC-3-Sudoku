@@ -345,8 +345,6 @@ class GUI(STYLE):
             if sudoku.isFinished():
                 print("AC3 was enough to solve this sudoku!")
             else:
-                # preprocessed = turnStringToBoard(str(sudoku))
-                # backTrack(preprocessed)
                 print(
                     "AC3 was not enough to solve this problem on its own, starting backtracking!")
 

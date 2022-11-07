@@ -17,7 +17,7 @@ def gen_game(dif):
     board[0] = sample(range(1, 10), 9)
 
     # Solve the Board
-    backTrack(board)
+    solve(board)
 
     # Board 2d to 1d
     # [9,9] -> [81]
