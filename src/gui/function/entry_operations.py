@@ -69,7 +69,7 @@ def update_board(board, entry_list):
 
 # write values in gui of hint_board
 #   Speed solve
-def update_values(hint_board, entry_list):
+def update_values(hint_board, entry_list, isAC3=False):
     for i in range(9):
         for j in range(9):
             entry = entry_list[i][j]
@@ -78,8 +78,11 @@ def update_values(hint_board, entry_list):
             if hint_board[i][j] > 0:
                 delete_value(entry)
                 insert_value(entry, hint_board[i][j])
-                fg_to_blue(entry)
-                bg_to_white(entry)
+                if isAC3:
+                    reset_fg_to_black(entry)
+                else:
+                    fg_to_blue(entry)
+                    bg_to_white(entry)
 
 
 # delete all values from gui

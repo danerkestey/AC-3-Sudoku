@@ -116,7 +116,7 @@ def fg_to_white(entry):
     )
 
 
-#   -------------------- Board Color Chnage ------------------    #
+#   -------------------- Board Color Change ------------------    #
 
 def board_fg_to_blue(entry_list, board):
     for i in range(9):

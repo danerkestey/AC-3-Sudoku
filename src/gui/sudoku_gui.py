@@ -4,7 +4,7 @@ import numpy as np
 from .style._style import STYLE
 from .style.entry_color_change import board_fg_to_blue
 
-from .function.utils import ONLY_DIGIT
+from .function.utils import *
 from .function.RCB_color_change import *
 from .function.generate_game import gen_game
 from .function.entry_operations import (
@@ -315,8 +315,13 @@ class GUI(STYLE):
                     "AC3 was not enough to solve this problem on its own, starting backtracking!")
 
         preprocessed = turnStringToBoard(str(sudoku))
-        self.Game_board = preprocessed
+        self.Game_board = preprocessed.copy()
         update_board(self.Game_board, self.Entry_list)
+        update_values(self.Game_board, self.Entry_list, True)
+        self.is_clear = False
+
+        # clear Queue
+        self.Entry_Queue.clear()
 
     # +---------------------------------------------+
     # |         Speed & Visual Solve Action         |
@@ -352,7 +357,7 @@ class GUI(STYLE):
 
         # visual call then current selected cell to blue
         if is_visual:
-            board_fg_to_blue(self.Entry_list, b)
+            board_fg_to_blue(self.Entry_list, self.Game_board)
 
         # delete temp boards
         del b, board
