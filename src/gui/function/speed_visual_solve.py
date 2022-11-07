@@ -45,7 +45,6 @@ def setup_visual_solve(master, entry_list, hint_board, is_clear, is_visual):
 
 
 def speed_visual_solve(board):
-
     # if game not generated | input by user
     if not IS_VISUAL and IS_CLEAR:
         solve(board)

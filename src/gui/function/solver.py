@@ -14,36 +14,18 @@ def turnStringToBoard(string):
     bo = []
     k = 9
 
-    print(string)
     for i in range(len(string)):
         if i % k == 0:
             sub = string[i:i+k]
             lst = []
             for j in sub:
-                print(j)
                 lst.append(int(j))
             bo.append(lst)
     return bo
 
 
 def solve(bo):
-    grid = turnBoardToString(bo)
-    print(bo)
-    print(grid)
-    print("----------")
-    sudoku = Sudoku(grid)
-    AC3_result = AC3(sudoku)
-
-    if not AC3_result:
-        print("Board has no solution")
-        return False
-    else:
-        if sudoku.isFinished():
-            print("AC3 was enough to solve this sudoku!")
-            return True
-        else:
-            preprocessed = turnStringToBoard(str(sudoku))
-            backTrack(preprocessed)
+    backTrack(bo)
 
 
 def backTrack(bo):

@@ -222,6 +222,14 @@ class GUI(STYLE):
             row=0, column=1, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
         solve_label_frame.grid(row=3, column=0, pady=self.Option_Frame_pady)
+
+        ac3_button = tk.Button(solve_label_frame, text="AC3",
+                               command=lambda: self.ac3_action())
+        self.Option_Button_Add_Style(ac3_button)
+        ac3_button.grid(
+            row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
+
+        solve_label_frame.grid(row=4, column=0, pady=self.Option_Frame_pady)
         # {1-2-3}
 
         option_frame.grid(row=1, column=0)
@@ -322,6 +330,25 @@ class GUI(STYLE):
             insert_value(self.Entry_list[self.c_pos_x][self.c_pos_y],
                          self.Hint_board[self.c_pos_x][self.c_pos_y])
 
+    def ac3_action(self):
+        grid = turnBoardToString(self.Game_board)
+        sudoku = Sudoku(grid)
+        AC3_result = AC3(sudoku)
+
+        if not AC3_result:
+            print("Board has no solution")
+        else:
+            if sudoku.isFinished():
+                print("AC3 was enough to solve this sudoku!")
+            else:
+                # preprocessed = turnStringToBoard(str(sudoku))
+                # backTrack(preprocessed)
+                print(
+                    "AC3 was not enough to solve this problem on its own, starting backtracking!")
+
+        preprocessed = turnStringToBoard(str(sudoku))
+        self.Game_board = preprocessed
+        update_board(self.Game_board, self.Entry_list)
     # +---------------------------------------------+
     # |         Speed & Visual Solve Action         |
     # +---------------------------------------------+
