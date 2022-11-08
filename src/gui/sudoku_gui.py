@@ -252,9 +252,8 @@ class GUI(STYLE):
     def easy_hard_game_button_action(self, dif):
         if not self.running:
             # Update Boards
-            self.Game_board,
-            self.Hint_board,
-            self.Readonly_board = gen_game(dif)
+            self.Game_board, self.Hint_board, self.Readonly_board = gen_game(
+                dif)
 
             # Insert Values in the GUI
             update_board(self.Game_board, self.Entry_list)
