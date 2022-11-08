@@ -217,9 +217,6 @@ class GUI(STYLE):
         right_block_frame.grid(row=0, column=1, padx=10)
         # {1}
 
-    # +------------------------------+
-    # |      Left Click Action       |
-    # +------------------------------+
     # Actions when entry box selected
     def entry_on_left_click(self, x, y):
         if not self.visual_running:
@@ -248,23 +245,18 @@ class GUI(STYLE):
             # Highlight RCB Color
             change_RCB_color(self.Entry_list, self.Readonly_board, x, y)
 
-    # +------------------------------+
-    # |     Right Click Action       |
-    # +------------------------------+
     def entry_on_right_click(self, x, y):
         # remove value of current cell
         delete_value(self.Entry_list[x][y])
 
-    # +----------------------------------+
-    # |      Easy, Hard Game Action      |
-    # +----------------------------------+
     def easy_hard_game_button_action(self, dif):
         if not self.running:
-            # update boards : Game_board, Hint_board, Readonly_board
-            self.Game_board, self.Hint_board, self.Readonly_board = gen_game(
-                dif)
+            # Update Boards
+            self.Game_board,
+            self.Hint_board,
+            self.Readonly_board = gen_game(dif)
 
-            # insert values in gui
+            # Insert Values in the GUI
             update_board(self.Game_board, self.Entry_list)
 
             self.is_clear = False
@@ -272,9 +264,6 @@ class GUI(STYLE):
             # clear Queue
             self.Entry_Queue.clear()
 
-    # +------------------------------+
-    # |        Restart Action        |
-    # +------------------------------+
     def restart_button_action(self):
         # Stop Visual Solving
         stop_solving()
@@ -282,9 +271,6 @@ class GUI(STYLE):
         # Just remove user input values not readonly ones
         restart_board(self.Game_board, self.Entry_list)
 
-    # +--------------------------------+
-    # |        Clear All Action        |
-    # +--------------------------------+
     def clear_all_button_action(self):
         # Stop Visual Solving
         stop_solving()
@@ -316,10 +302,18 @@ class GUI(STYLE):
 
         preprocessed = turnStringToBoard(str(sudoku))
         self.Hint_board = getHintBoard(
-            preprocessed, self.Game_board, self.Hint_board)
+            preprocessed,
+            self.Game_board,
+            self.Hint_board
+        )
         self.Game_board = preprocessed.copy()
-        # update_board(self.Game_board, self.Entry_list)
-        update_values(self.Game_board, self.Entry_list, True)
+
+        update_values(
+            self.Game_board,
+            self.Entry_list,
+            True
+        )
+
         self.is_clear = False
 
         # clear Queue
