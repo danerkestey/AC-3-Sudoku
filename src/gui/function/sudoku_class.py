@@ -1,17 +1,13 @@
 import itertools
 
-# coordinates idea from @ https://github.com/speix/sudoku-solver/blob/master/sudoku.py
 rows = "123456789"
 cols = "ABCDEFGHI"
 
 
 class Sudoku:
-
-    """
-    INITIALIZATION
-    """
-
     def __init__(self, grid):
+        game = list(grid)
+
         # generation of all the coords of the grid
         self.cells = list()
         self.cells = self.generate_coords()
@@ -38,11 +34,14 @@ class Sudoku:
             int(grid[i])] for i, v in enumerate(self.cells)}
 
     """
-    generates all the coordinates of the cells
+    Definition: Function to generate all the coordinates of the cells
+    Input:
+        None
+    Returns:
+        A list of all cells in the format [LETTER][NUMBER]
     """
 
     def generate_coords(self):
-
         all_cells_coords = []
 
         # for A,B,C, ... ,H,I
@@ -58,7 +57,11 @@ class Sudoku:
         return all_cells_coords
 
     """
-    generates all possible value remaining for each cell
+    Definition: Function to generate all possible values remaining for each cell
+    Input:
+        grid (string) - the current grid of the puzzle
+    Returns:
+        possibilities (dictionary) - A hashset of all possibilities for each cell
     """
 
     def generate_possibilities(self, grid):
@@ -78,8 +81,12 @@ class Sudoku:
         return possibilities
 
     """
-    generates the constraints based on the rules of the game:
-    value different from any in row, column or square
+    Definition: Function to generates the constraints based on the rules of the game:
+                Different values for every row, column and square
+    Input:
+        None
+    Returns:
+        list of the row, column and square constraints concatenated
     """
 
     def generate_rules_constraints(self):
@@ -97,11 +104,9 @@ class Sudoku:
             column_constraints.append([col + row for row in rows])
 
         # get square constraints
-        rows_square_coords = (cols[i:i+3] for i in range(0, len(rows), 3))
-        rows_square_coords = list(rows_square_coords)
+        rows_square_coords = [cols[i:i+3] for i in range(0, len(rows), 3)]
 
-        cols_square_coords = (rows[i:i+3] for i in range(0, len(cols), 3))
-        cols_square_coords = list(cols_square_coords)
+        cols_square_coords = [rows[i:i+3] for i in range(0, len(cols), 3)]
 
         # for each square
         for row in rows_square_coords:
@@ -120,7 +125,11 @@ class Sudoku:
         return row_constraints + column_constraints + square_constraints
 
     """
-    generates the binary constraints based on the rule constraints
+    Definition: Function to generate the binary constraints based on the rule constraints
+    Input:
+        rules_constraints (list) - List of all rules constraints
+    Returns:
+        generated_binary_constraints (list) - List of all of the binary constraints
     """
 
     def generate_binary_constraints(self, rule_constraints):
@@ -131,12 +140,20 @@ class Sudoku:
 
             binary_constraints = list()
 
+            # 2 because we want binary constraints
+            # solution taken from :
+            # https://stackoverflow.com/questions/464864/how-to-get-all-possible-combinations-of-a-list-s-elements
+
             # for tuple_of_constraint in itertools.combinations(constraint_set, 2):
             for tuple_of_constraint in itertools.permutations(constraint_set, 2):
                 binary_constraints.append(tuple_of_constraint)
 
             # for each of these binary constraints
             for constraint in binary_constraints:
+
+                # check if we already have this constraint saved
+                # = check if already exists
+                # solution from https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exist-in-a-list
                 constraint_as_list = list(constraint)
                 if(constraint_as_list not in generated_binary_constraints):
                     generated_binary_constraints.append(
@@ -145,7 +162,11 @@ class Sudoku:
         return generated_binary_constraints
 
     """
-    generates the the constraint-related cell for each one of them
+    Definition: Function to generate the constraint-related cell for each one of the coordinates
+    Input:
+        None
+    Returns:
+        related_cells (dictionary) - A hashset of all related cells for each cell
     """
 
     def generate_related_cells(self):

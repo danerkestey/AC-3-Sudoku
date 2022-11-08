@@ -11,7 +11,7 @@ def turnBoardToString(bo):
 
 
 def turnStringToBoard(string):
-    bo = []
+    board = []
     k = 9
 
     for i in range(len(string)):
@@ -20,8 +20,8 @@ def turnStringToBoard(string):
             lst = []
             for j in sub:
                 lst.append(int(j))
-            bo.append(lst)
-    return bo
+            board.append(lst)
+    return board
 
 
 def getHintBoard(gameBoard, originalBoard, hintBoard):

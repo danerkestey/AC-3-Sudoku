@@ -1,51 +1,56 @@
 from src.gui.function.utils import is_different
 
 """
-Constraint Propagation with AC-3
+Definition: AC-3 Implementation for maintaining Arc Consistency
+    Input:
+        csp (Sudoku) - Current CSP definition of the Sudoku puzzle
+    Returns:
+        Whether or not the current problem is arc-consistent
 """
 
 
-def AC3(csp, queue=None):
+def AC3(csp):
 
-    if queue == None:
-        queue = list(csp.binary_constraints)
+    queue = list(csp.binary_constraints)
 
     while queue:
+        (cell1, cell2) = queue.pop(0)
 
-        (xi, xj) = queue.pop(0)
-
-        if remove_inconsistent_values(csp, xi, xj):
+        if remove_inconsistent_values(csp, cell1, cell2):
 
             # if a cell has 0 possibilities, sudoku has no solution
-            if len(csp.possibilities[xi]) == 0:
+            if len(csp.possibilities[cell1]) == 0:
                 return False
 
-            for Xk in csp.related_cells[xi]:
-                if Xk != xi:
-                    queue.append((Xk, xi))
+            for cell in csp.related_cells[cell1]:
+                if cell != cell1:
+                    queue.append((cell, cell1))
 
     return True
 
 
 """
-remove_inconsistent_values
-returns true if a value is removed
+Definition: Helper function to remove inconsistent values
+    Input:
+        csp (Sudoku) - Current CSP definition of the Sudoku puzzle
+        cell1 (string) - The cell to check its possibilities
+        cell2 (string) - The cell to check conflict with
+    Returns:
+        Whether or not a value has been removed
 """
 
 
-def remove_inconsistent_values(csp, cell_i, cell_j):
-
+def remove_inconsistent_values(csp, cell1, cell2):
     removed = False
 
-    # for each possible value remaining for the cell_i cell
-    for value in csp.possibilities[cell_i]:
+    # for each possible value remaining for the cell1 cell
+    for value in csp.possibilities[cell1]:
 
-        # if cell_i=value is in conflict with cell_j=poss for each possibility
-        if not any([is_different(value, poss) for poss in csp.possibilities[cell_j]]):
+        # if cell1's value is in conflict with cell2's possibilities for each possibility
+        if not any([is_different(value, poss) for poss in csp.possibilities[cell2]]):
 
-            # then remove cell_i=value
-            csp.possibilities[cell_i].remove(value)
+            # then remove cell1's value
+            csp.possibilities[cell1].remove(value)
             removed = True
 
-    # returns true if a value has been removed
     return removed
