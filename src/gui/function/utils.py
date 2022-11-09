@@ -27,7 +27,7 @@ def ONLY_DIGIT(e):
         return False
 
 
-def get_RCB_pos(x, y) -> set:
+def getColorPos(x, y) -> set:
     pos = set()
 
     # Add row indexs

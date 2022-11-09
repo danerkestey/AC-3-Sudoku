@@ -54,13 +54,13 @@ def readonly_bg_to_lightblue(entry):
 
 # Background to White
 #   set to default color
-def bg_to_white(entry):
+def backgroundToWhite(entry):
     entry.config(
         bg=WHITE_COLOR
     )
 
 
-def readonly_to_white(entry):
+def readonlyToWhite(entry):
     entry.config(
         readonlybackground=WHITE_COLOR
     )
@@ -122,8 +122,8 @@ def board_fg_to_blue(entryList, board):
     for i in range(9):
         for j in range(9):
             # try:
-            bg_to_white(entryList[i][j])
+            backgroundToWhite(entryList[i][j])
             if board[i][j] == 0:
                 fg_to_blue(entryList[i][j])
             # except:
-            readonly_to_white(entryList[i][j])
+            readonlyToWhite(entryList[i][j])

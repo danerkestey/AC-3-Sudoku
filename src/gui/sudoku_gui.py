@@ -9,12 +9,12 @@ from .function.RCB_color_change import *
 from .function.generate_game import gen_game
 from .function.entry_operations import (
     update_board,
-    format_value,
+    formatValue,
     delete_value,
     restart_board,
     clear_all_board,
     collect_entry_values)
-from .function.valid_entry_color_change import is_valid
+from .function.valid_entry_color_change import isValid
 from .function.speed_visual_solve import *
 
 
@@ -234,26 +234,26 @@ class GUI(STYLE):
 
     def entryOnLeftClick(self, x, y):
         if not self.visualRunning:
-            # Add to entryQueue
+            # Add current position to the entryQueue
             self.addToQueue(x, y)
 
-            # update current position
+            # update current position to be the passed in coordinate
             self.updateCurrPos(x, y)
 
-            # remove highlight color from previously selected cell
+            # Remove the highlight from the previously selected cell
             if len(self.entryQueue) == 2:
                 entry = self.entryList[self.entryQueue[0]
                                        [0]][self.entryQueue[0][1]]
 
-                format_value(entry)
+                formatValue(entry)
 
-                # Remove Highlight of RCB Color
-                reset_RCB_color(self.entryList, self.readonlyBoard,
-                                self.entryQueue[0][0], self.entryQueue[0][1])
+                # Reset the previously selected cell
+                resetColor(self.entryList, self.readonlyBoard,
+                           self.entryQueue[0][0], self.entryQueue[0][1])
 
-                # if value(answer) is wrong then change color to red
+                # If the current input is wrong, change the text colour to red
                 if self.hintBoard is not None:
-                    is_valid(
+                    isValid(
                         entry, self.hintBoard[self.entryQueue[0][0]][self.entryQueue[0][1]])
 
             # Highlight RCB Color

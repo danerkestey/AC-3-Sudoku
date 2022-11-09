@@ -1,8 +1,8 @@
 import re
 import numpy as np
 from src.gui.style.entry_color_change import (
-    bg_to_white,
-    readonly_to_white,
+    backgroundToWhite,
+    readonlyToWhite,
     fg_to_blue,
     reset_fg_to_black
 )
@@ -38,7 +38,7 @@ def insert_value(entry, n):
 # format value "5" -> " 5"
 
 
-def format_value(entry):
+def formatValue(entry):
     VALUE = entry.get()
 
     if re.match(r"(\d)", VALUE):
@@ -60,11 +60,11 @@ def update_board(board, entryList):
             if board[i][j] > 0:
                 insert_value(entry, board[i][j])
                 read_only_mode(entry)
-                readonly_to_white(entry)
+                readonlyToWhite(entry)
                 reset_fg_to_black(entry)
             else:
                 fg_to_blue(entry)
-                bg_to_white(entry)
+                backgroundToWhite(entry)
 
 
 # write values in gui of hint_board
@@ -82,7 +82,7 @@ def update_values(hint_board, entryList, isAC3=False):
                     reset_fg_to_black(entry)
                 else:
                     fg_to_blue(entry)
-                    bg_to_white(entry)
+                    backgroundToWhite(entry)
 
 
 # delete all values from gui
@@ -111,7 +111,7 @@ def clear_all_board(board, entryList):
 
             delete_value(entry)
             fg_to_blue(entry)
-            bg_to_white(entry)
+            backgroundToWhite(entry)
 
 
 # collect entry values from gui
@@ -122,7 +122,7 @@ def collect_entry_values(entryList):
 
     for i in range(9):
         for j in range(9):
-            format_value(entryList[i][j])
+            formatValue(entryList[i][j])
             VALUE = entryList[i][j].get()
             try:
                 board[i][j] = int(VALUE)

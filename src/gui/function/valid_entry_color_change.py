@@ -9,7 +9,7 @@ from src.gui.style.entry_color_change import fg_to_red, fg_to_blue
 '''
 
 
-def is_valid(entry, hint_board_val):
+def isValid(entry, hint_board_val):
     if int(hint_board_val) != 0:
         VALUE = entry.get()
         if VALUE != "":

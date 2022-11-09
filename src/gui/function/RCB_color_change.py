@@ -11,34 +11,44 @@ from .utils import *
 # Highlight RCB as per current selection
 
 
-def change_RCB_color(entryList, readonly_board, x, y):
+def change_RCB_color(entryList, readonlyBoard, x, y):
     # POS - all RCB indexs
-    _POS = get_RCB_pos(x, y)
+    _POS = getColorPos(x, y)
 
     for i in range(len(_POS)):
         POS = _POS.pop()
 
-        if readonly_board[POS[0]][POS[1]]:
+        if readonlyBoard[POS[0]][POS[1]]:
             readonly_bg_to_lightblue(entryList[POS[0]][POS[1]])
         else:
             bg_to_lightblue(entryList[POS[0]][POS[1]])
 
     # change current selected color
-    if readonly_board[x][y]:
+    if readonlyBoard[x][y]:
         readonly_bg_to_blue(entryList[x][y])
     else:
         bg_to_blue(entryList[x][y])
 
 
-# Remove Highlight color of RCB of previous selection
-def reset_RCB_color(entryList, readonly_board, x, y):
-    # POS - all RCB indexs
-    _POS = get_RCB_pos(x, y)
+"""
+Definition: Function to remove highlight color of the previous selection
+    Input:
+        readonlyBoard (list) - The display board
+        x (int) - x position of the entry
+        y (int) - y position of the entry
+    Returns:
+        None
+"""
 
-    for i in range(len(_POS)):
-        POS = _POS.pop()
 
-        if readonly_board[POS[0]][POS[1]]:
-            readonly_to_white(entryList[POS[0]][POS[1]])
+def resetColor(entryList, readonlyBoard, x, y):
+    # Get all color indices
+    POS = getColorPos(x, y)
+
+    for _ in range(len(POS)):
+        pos = POS.pop()
+
+        if readonlyBoard[pos[0]][pos[1]]:
+            readonlyToWhite(entryList[pos[0]][pos[1]])
         else:
-            bg_to_white(entryList[POS[0]][POS[1]])
+            backgroundToWhite(entryList[pos[0]][pos[1]])
