@@ -1,4 +1,4 @@
-import itertools
+from itertools import permutations as perm
 
 ROWS = "123456789"
 COLS = "ABCDEFGHI"
@@ -6,30 +6,15 @@ COLS = "ABCDEFGHI"
 
 class Sudoku:
     def __init__(self, grid):
-        # generation of all the coords of the grid
-        self.cells = list()
         self.cells = self.genCoords()
 
-        # generation of all the possibilities for each one of these coords
-        self.possibilities = dict()
         self.possibilities = self.genPossibilities(grid)
 
-        # generation of the line / row / square constraints
         RULES = self.genRulesConstraints()
-
-        # convertion of these constraints to binary constraints
-        self.binaryConstraints = list()
         self.binaryConstraints = self.genBinaryConstraints(
             RULES)
 
-        # generating all constraint-related cells for each of them
-        self.related = dict()
         self.related = self.generateRelated()
-
-        # prune
-        self.pruned = dict()
-        self.pruned = {v: list() if grid[i] == '0' else [
-            int(grid[i])] for i, v in enumerate(self.cells)}
 
     """
     Definition: Function to generate all the coordinates of the cells
@@ -42,13 +27,8 @@ class Sudoku:
     def genCoords(self):
         coords = []
 
-        # for A,B,C, ... ,H,I
         for col in COLS:
-
-            # for 1,2,3 ,... ,8,9
             for row in ROWS:
-
-                # A1, A2, A3, ... , H8, H9
                 new = col + row
                 coords.append(new)
 
@@ -69,10 +49,8 @@ class Sudoku:
         possibilities = dict()
 
         for index, coords in enumerate(self.cells):
-            # if value is 0, then the cell can have any value in [1, 9]
             if grid_as_list[index] == "0":
                 possibilities[coords] = list(range(1, 10))
-            # else value is already defined, possibilities is this value
             else:
                 possibilities[coords] = [int(grid_as_list[index])]
 
@@ -88,38 +66,31 @@ class Sudoku:
     """
 
     def genRulesConstraints(self):
-
         rowConsts = []
         colConsts = []
         squareConsts = []
 
-        # get rows constraints
+        # Get all of the row constraints
         for row in ROWS:
             rowConsts.append([col + row for col in COLS])
 
-        # get columns constraints
+        # Get all of the column constraints
         for col in COLS:
             colConsts.append([col + row for row in ROWS])
 
-        # get square constraints
+        # Get all of the square constraints
         rowSquare = [COLS[i:i+3] for i in range(0, len(ROWS), 3)]
-
         colSquare = [ROWS[i:i+3] for i in range(0, len(COLS), 3)]
 
-        # for each square
         for row in rowSquare:
             for col in colSquare:
-
                 curr = []
-
-                # and for each value in this square
                 for x in row:
                     for y in col:
                         curr.append(x + y)
-
                 squareConsts.append(curr)
 
-        # all constraints is the sum of these 3 rules
+        # Return the concatenation of all 3 constraints
         return rowConsts + colConsts + squareConsts
 
     """
@@ -137,7 +108,8 @@ class Sudoku:
 
             binaryConstraints = list()
 
-            for t in itertools.permutations(constraint, 2):
+            # Get all 2-set permutations of the constraint
+            for t in perm(constraint, 2):
                 binaryConstraints.append(t)
 
             for c in binaryConstraints:

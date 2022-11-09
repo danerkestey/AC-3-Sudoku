@@ -62,28 +62,28 @@ def solve(board):
 
 
 """
-Definition: Function to find the first empty position
+Definition: Function to check if a current cell is valid
     Input:
         board (list) - Current arc-consistent instance of the Sudoku puzzle
         num (int) - Current value in the board
         pos (list) - Tuple representing the position of the number
     Returns:
-        (i, j) - Position of the first empty cell
+        Whether or not the cell is valid
 """
 
 
 def valid(board, num, pos):
-    # Check Row
+    # Check if the position is consistent in the row
     for i in range(len(board[0])):
         if board[pos[0]][i] == num and pos[1] != i:
             return False
 
-    # Check Column
+    # Check if the position is consistent in the column
     for i in range(len(board)):
         if board[i][pos[1]] == num and pos[0] != i:
             return False
 
-    # Check Square
+    # Check if the position is consistent in the square
     squareX = pos[1] // 3
     squareY = pos[0] // 3
 
