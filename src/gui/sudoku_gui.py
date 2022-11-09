@@ -257,7 +257,7 @@ class GUI(STYLE):
                         entry, self.hintBoard[self.entryQueue[0][0]][self.entryQueue[0][1]])
 
             # Highlight RCB Color
-            change_RCB_color(self.entryList, self.readonlyBoard, x, y)
+            changeColor(self.entryList, self.readonlyBoard, x, y)
 
     def entryOnRightClick(self, x, y):
         # remove value of current cell
