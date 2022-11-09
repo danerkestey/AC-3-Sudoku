@@ -21,8 +21,8 @@ class Option_Style:
         self.Option_title = data["Title"]
 
         # Button Style Variables
-        self.Option_Button_padx = self.Option_Button["padx"]
-        self.Option_Button_pady = self.Option_Button["pady"]
+        self.optionButtonPadX = self.Option_Button["padx"]
+        self.optionButtonPadY = self.Option_Button["pady"]
 
         # LabelFrame Style Variables
         self.optionFramePadY = self.Option_Frame["pady"]
