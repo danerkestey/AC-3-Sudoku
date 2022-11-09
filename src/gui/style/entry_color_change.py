@@ -68,7 +68,7 @@ def readonlyToWhite(entry):
 
 #   -------------------- Red ------------------    #
 
-def bg_to_red(entry):
+def backgroundToRed(entry):
     entry.config(
         bg=LIGHTRED_COLOR
     )
@@ -76,7 +76,7 @@ def bg_to_red(entry):
 
 #   -------------------- Green ------------------    #
 
-def bg_to_green(entry):
+def backgroundToGreen(entry):
     entry.config(
         bg=GREEN_COLOR
     )
@@ -110,7 +110,7 @@ def fg_to_red(entry):
 # White
 
 
-def fg_to_white(entry):
+def textToWhite(entry):
     entry.config(
         fg=WHITE_COLOR
     )
@@ -118,7 +118,7 @@ def fg_to_white(entry):
 
 #   -------------------- Board Color Change ------------------    #
 
-def board_fg_to_blue(entryList, board):
+def boardTextToBlue(entryList, board):
     for i in range(9):
         for j in range(9):
             # try:

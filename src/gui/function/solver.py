@@ -43,7 +43,7 @@ Definition: Function to solve the Sudoku problem using backtracking
 
 def solve(board):
     # Solves by backtracking
-    find = find_empty(board)
+    find = findEmpty(board)
     if not find:
         return True
     else:
@@ -104,7 +104,7 @@ Definition: Function to find the first empty position
 """
 
 
-def find_empty(board):
+def findEmpty(board):
     for i in range(len(board)):
         for j in range(len(board[0])):
             if board[i][j] == 0:

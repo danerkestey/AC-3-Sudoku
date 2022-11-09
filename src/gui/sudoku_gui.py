@@ -2,7 +2,7 @@ import tkinter as tk
 import numpy as np
 
 from .style._style import STYLE
-from .style.entry_color_change import board_fg_to_blue
+from .style.entry_color_change import boardTextToBlue
 
 from .function.utils import *
 from .function.RCB_color_change import *
@@ -10,10 +10,10 @@ from .function.generate_game import genGame
 from .function.entry_operations import (
     updateBoard,
     formatValue,
-    delete_value,
+    deleteValue,
     restart_board,
     clear_all_board,
-    collect_entry_values)
+    getEntryValues)
 from .function.valid_entry_color_change import isValid
 from .function.speed_visual_solve import *
 
@@ -52,10 +52,10 @@ class GUI(STYLE):
 
     # bind function with input boxes to update current position
 
-    def start_running(self):
+    def startRunning(self):
         self.running = True
 
-    def stop_running(self):
+    def stopRunning(self):
         self.running = False
 
     def updateCurrPos(self, x, y):
@@ -196,7 +196,7 @@ class GUI(STYLE):
 
         # Button to solve the game in a visual iteration
         visual = tk.Button(solve, text="Visual",
-                           command=lambda: self.speed_visual_solve_button_action(True))
+                           command=lambda: self.speedVisualSolveAction(True))
 
         self.OptionButtonAddStyle(visual)  # Add styles to the button
 
@@ -205,7 +205,7 @@ class GUI(STYLE):
 
         # Button to solve the game instantaneously
         speed = tk.Button(solve, text="Speed",
-                          command=lambda: self.speed_visual_solve_button_action(False))
+                          command=lambda: self.speedVisualSolveAction(False))
 
         self.OptionButtonAddStyle(speed)  # Add styles to the button
 
@@ -269,7 +269,7 @@ class GUI(STYLE):
 
     def entryOnRightClick(self, x, y):
         # remove value of current cell
-        delete_value(self.entryList[x][y])
+        deleteValue(self.entryList[x][y])
 
     """
     Definition: Function to randomly generate a game
@@ -352,50 +352,53 @@ class GUI(STYLE):
         self.isClear = False
         self.entryQueue.clear()
 
-    # +---------------------------------------------+
-    # |         Speed & Visual Solve Action         |
-    # +---------------------------------------------+
+    """
+    Definition: Function to solve the Sudoku puzzle visually
+        Input:
+            isVisual (boolean) - Whether the solve is visual or instantaneous
+        Returns:
+            None
+    """
 
-    def speed_visual_solve_button_action(self, is_visual):
-        # if visual call and virual solve already running then it return
-        if is_visual and self.running:
+    def speedVisualSolveAction(self, isVisual):
+        # If visual call and a solution is running then do nothing
+        if isVisual and self.running:
             return
 
-        # running -> True | if visual call
-        if is_visual:
-            self.start_running()
+        # Start visual run
+        if isVisual:
+            self.startRunning()
 
         self.visualRunning = True
 
-        # Game Not Generate collect values from input box
+        # If the user entered the board then copy the values to the board
         if self.isClear:
-            board = collect_entry_values(self.entryList)
+            board = getEntryValues(self.entryList)
             self.gameBoard = board.copy()
         else:
-            # copy current generated board
+            # If the game was generated
             board = self.gameBoard.copy()
 
         b = board.copy()
 
-        # setup environment
-        setup_visual_solve(self._master, self.entryList,
-                           self.solvedBoard, self.isClear, is_visual)
+        # Setup the Environment to solve
+        setupVisualSolve(self._master, self.entryList,
+                         self.solvedBoard, self.isClear, isVisual)
 
-        # Solving
-        speed_visual_solve(board)
+        # Solve the puzzle
+        speedSolve(board)
 
         # visual call then current selected cell to blue
-        if is_visual:
-            board_fg_to_blue(self.entryList, self.gameBoard)
+        if isVisual:
+            boardTextToBlue(self.entryList, self.gameBoard)
 
         # delete temp boards
         del b, board
-
         self.visualRunning = False
 
-        # running -> False | if visual call
-        if is_visual:
-            self.stop_running()
+        # Stop running once the problem is solved
+        if isVisual:
+            self.stopRunning()
 
     # FILO to store last clicked entry
     def addToQueue(self, x, y):
