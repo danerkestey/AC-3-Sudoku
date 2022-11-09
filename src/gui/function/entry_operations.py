@@ -69,7 +69,7 @@ def updateBoard(board, entryList):
 
 # write values in gui of hint_board
 #   Speed solve
-def update_values(hint_board, entryList, isAC3=False):
+def updateValues(hint_board, entryList, isAC3=False):
     for i in range(9):
         for j in range(9):
             entry = entryList[i][j]

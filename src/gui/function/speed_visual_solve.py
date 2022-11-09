@@ -4,7 +4,7 @@ from .solver import *
 from .entry_operations import (
     insert_value,
     delete_value,
-    update_values)
+    updateValues)
 
 from src.gui.style.entry_color_change import (
     bg_to_red,
@@ -44,12 +44,12 @@ def speed_visual_solve(board):
     # if game not generated | input by user
     if not IS_VISUAL and IS_CLEAR:
         solve(board)
-        update_values(board, ENTRY_LIST)
+        updateValues(board, ENTRY_LIST)
         return
 
     # Speed Solve | Game Generated
     if not IS_VISUAL:
-        update_values(HINT_BOARD, ENTRY_LIST)
+        updateValues(HINT_BOARD, ENTRY_LIST)
 
     # visual Solve
     if IS_VISUAL:
@@ -82,7 +82,7 @@ def speed_visual_solve(board):
                 board[row][col] = i
 
                 if speed_visual_solve(board):
-                    update_values(HINT_BOARD, ENTRY_LIST)
+                    updateValues(HINT_BOARD, ENTRY_LIST)
                     return True
 
                 board[row][col] = 0

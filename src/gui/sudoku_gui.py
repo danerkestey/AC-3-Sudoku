@@ -220,7 +220,7 @@ class GUI(STYLE):
 
         # Button to run the AC-3 Algorithm
         ac3 = tk.Button(csp, text="AC3",
-                        command=lambda: self.ac3_action())
+                        command=lambda: self.ac3Action())
 
         self.OptionButtonAddStyle(ac3)  # Add styles to the button
 
@@ -313,12 +313,12 @@ class GUI(STYLE):
         self.isClear = True
         self.entryQueue.clear()
 
-    def ac3_action(self):
+    def ac3Action(self):
         grid = turnBoardToString(self.gameBoard)
         sudoku = Sudoku(grid)
-        AC3_result = AC3(sudoku)
+        AC3Result = AC3(sudoku)
 
-        if not AC3_result:
+        if not AC3Result:
             print("Board has no solution")
         else:
             if sudoku.isFinished():
@@ -335,15 +335,13 @@ class GUI(STYLE):
         )
         self.gameBoard = preprocessed.copy()
 
-        update_values(
+        updateValues(
             self.gameBoard,
             self.entryList,
             True
         )
 
         self.isClear = False
-
-        # clear Queue
         self.entryQueue.clear()
 
     # +---------------------------------------------+
