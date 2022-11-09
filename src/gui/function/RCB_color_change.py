@@ -11,7 +11,7 @@ from .utils import *
 # Highlight RCB as per current selection
 
 
-def change_RCB_color(entryList, readonlyBoard, x, y):
+def changeColor(entryList, readonlyBoard, x, y):
     # POS - all RCB indexs
     _POS = getColorPos(x, y)
 
