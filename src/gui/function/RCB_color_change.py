@@ -8,26 +8,34 @@ from .utils import *
     Use by : src\\gui\\sudoku_gui.py
 '''
 
-# Highlight RCB as per current selection
+"""
+Definition: Function to highlight color of the selected cell
+    Input:
+        readonlyBoard (list) - The display board
+        x (int) - x position of the entry
+        y (int) - y position of the entry
+    Returns:
+        None
+"""
 
 
 def changeColor(entryList, readonlyBoard, x, y):
-    # POS - all RCB indexs
-    _POS = getColorPos(x, y)
+    # Get all color indices
+    POS = getColorPos(x, y)
 
-    for i in range(len(_POS)):
-        POS = _POS.pop()
+    for _ in range(len(POS)):
+        pos = POS.pop()
 
-        if readonlyBoard[POS[0]][POS[1]]:
-            readonly_bg_to_lightblue(entryList[POS[0]][POS[1]])
+        if readonlyBoard[pos[0]][pos[1]]:
+            readonlyToLightBlue(entryList[pos[0]][pos[1]])
         else:
-            bg_to_lightblue(entryList[POS[0]][POS[1]])
+            backgroundToLightBlue(entryList[pos[0]][pos[1]])
 
-    # change current selected color
+    # Change current selected color
     if readonlyBoard[x][y]:
-        readonly_bg_to_blue(entryList[x][y])
+        readonlyToBlue(entryList[x][y])
     else:
-        bg_to_blue(entryList[x][y])
+        backgroundToBlue(entryList[x][y])
 
 
 """

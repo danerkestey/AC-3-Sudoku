@@ -20,13 +20,13 @@ GREEN_COLOR = "#78db88"
 
 # Background to blue
 #   user Select entry cell
-def bg_to_blue(entry):
+def backgroundToBlue(entry):
     entry.config(
         bg=SELECT_COLOR
     )
 
 
-def readonly_bg_to_blue(entry):
+def readonlyToBlue(entry):
     entry.config(
         readonlybackground=SELECT_COLOR
     )
@@ -37,13 +37,13 @@ def readonly_bg_to_blue(entry):
 
 # Background to lightblue
 #   color for highlight (row|colums|box) when user select entry cell
-def bg_to_lightblue(entry):
+def backgroundToLightBlue(entry):
     entry.config(
         bg=HIGHLIGHT_COLOR
     )
 
 
-def readonly_bg_to_lightblue(entry):
+def readonlyToLightBlue(entry):
     entry.config(
         readonlybackground=HIGHLIGHT_COLOR
     )

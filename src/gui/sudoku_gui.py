@@ -256,7 +256,7 @@ class GUI(STYLE):
                     isValid(
                         entry, self.hintBoard[self.entryQueue[0][0]][self.entryQueue[0][1]])
 
-            # Highlight RCB Color
+            # Highlight the current cell
             changeColor(self.entryList, self.readonlyBoard, x, y)
 
     def entryOnRightClick(self, x, y):
