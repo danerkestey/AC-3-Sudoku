@@ -313,6 +313,14 @@ class GUI(STYLE):
         self.isClear = True
         self.entryQueue.clear()
 
+    """
+    Definition: Function to run the AC-3 Algorithm
+        Input:
+            None
+        Returns:
+            None
+    """
+
     def ac3Action(self):
         grid = turnBoardToString(self.gameBoard)
         sudoku = Sudoku(grid)
