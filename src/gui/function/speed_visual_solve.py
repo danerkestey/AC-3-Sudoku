@@ -79,6 +79,7 @@ def speedSolve(board):
     if IS_VISUAL:
         find = findEmpty(board)
 
+        # Check whether or not the puzzle is solved
         if not find:
             return True
         else:
@@ -86,7 +87,7 @@ def speedSolve(board):
 
         for i in range(1, 10):
 
-            if IS_VISUAL and RUN:   # select
+            if IS_VISUAL and RUN:   # Select a Cell
                 backgroundToRed(ENTRY_LIST[row][col])
                 textToWhite(ENTRY_LIST[row][col])
                 deleteValue(ENTRY_LIST[row][col])
@@ -96,7 +97,7 @@ def speedSolve(board):
 
             if valid(board, i, (row, col)):
 
-                if IS_VISUAL and RUN:   # green / valid
+                if IS_VISUAL and RUN:   # Update to green if valid
                     backgroundToGreen(ENTRY_LIST[row][col])
                     deleteValue(ENTRY_LIST[row][col])
                     insertValue(ENTRY_LIST[row][col], i)
@@ -111,6 +112,7 @@ def speedSolve(board):
 
                 board[row][col] = 0
 
+                # Make another selection
                 if IS_VISUAL and RUN:
                     backgroundToRed(ENTRY_LIST[row][col])
                     textToWhite(ENTRY_LIST[row][col])

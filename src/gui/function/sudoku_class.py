@@ -1,32 +1,30 @@
 import itertools
 
-rows = "123456789"
-cols = "ABCDEFGHI"
+ROWS = "123456789"
+COLS = "ABCDEFGHI"
 
 
 class Sudoku:
     def __init__(self, grid):
-        game = list(grid)
-
         # generation of all the coords of the grid
         self.cells = list()
-        self.cells = self.generate_coords()
+        self.cells = self.genCoords()
 
         # generation of all the possibilities for each one of these coords
         self.possibilities = dict()
-        self.possibilities = self.generate_possibilities(grid)
+        self.possibilities = self.genPossibilities(grid)
 
         # generation of the line / row / square constraints
-        rule_constraints = self.generate_rules_constraints()
+        RULES = self.genRulesConstraints()
 
         # convertion of these constraints to binary constraints
-        self.binary_constraints = list()
-        self.binary_constraints = self.generate_binary_constraints(
-            rule_constraints)
+        self.binaryConstraints = list()
+        self.binaryConstraints = self.genBinaryConstraints(
+            RULES)
 
         # generating all constraint-related cells for each of them
-        self.related_cells = dict()
-        self.related_cells = self.generate_related_cells()
+        self.related = dict()
+        self.related = self.generateRelated()
 
         # prune
         self.pruned = dict()
@@ -41,20 +39,20 @@ class Sudoku:
         A list of all cells in the format [LETTER][NUMBER]
     """
 
-    def generate_coords(self):
-        all_cells_coords = []
+    def genCoords(self):
+        coords = []
 
         # for A,B,C, ... ,H,I
-        for col in cols:
+        for col in COLS:
 
             # for 1,2,3 ,... ,8,9
-            for row in rows:
+            for row in ROWS:
 
                 # A1, A2, A3, ... , H8, H9
-                new_coords = col + row
-                all_cells_coords.append(new_coords)
+                new = col + row
+                coords.append(new)
 
-        return all_cells_coords
+        return coords
 
     """
     Definition: Function to generate all possible values remaining for each cell
@@ -64,7 +62,7 @@ class Sudoku:
         possibilities (dictionary) - A hashset of all possibilities for each cell
     """
 
-    def generate_possibilities(self, grid):
+    def genPossibilities(self, grid):
 
         grid_as_list = list(grid)
 
@@ -89,100 +87,89 @@ class Sudoku:
         list of the row, column and square constraints concatenated
     """
 
-    def generate_rules_constraints(self):
+    def genRulesConstraints(self):
 
-        row_constraints = []
-        column_constraints = []
-        square_constraints = []
+        rowConsts = []
+        colConsts = []
+        squareConsts = []
 
         # get rows constraints
-        for row in rows:
-            row_constraints.append([col + row for col in cols])
+        for row in ROWS:
+            rowConsts.append([col + row for col in COLS])
 
         # get columns constraints
-        for col in cols:
-            column_constraints.append([col + row for row in rows])
+        for col in COLS:
+            colConsts.append([col + row for row in ROWS])
 
         # get square constraints
-        rows_square_coords = [cols[i:i+3] for i in range(0, len(rows), 3)]
+        rowSquare = [COLS[i:i+3] for i in range(0, len(ROWS), 3)]
 
-        cols_square_coords = [rows[i:i+3] for i in range(0, len(cols), 3)]
+        colSquare = [ROWS[i:i+3] for i in range(0, len(COLS), 3)]
 
         # for each square
-        for row in rows_square_coords:
-            for col in cols_square_coords:
+        for row in rowSquare:
+            for col in colSquare:
 
-                current_square_constraints = []
+                curr = []
 
                 # and for each value in this square
                 for x in row:
                     for y in col:
-                        current_square_constraints.append(x + y)
+                        curr.append(x + y)
 
-                square_constraints.append(current_square_constraints)
+                squareConsts.append(curr)
 
         # all constraints is the sum of these 3 rules
-        return row_constraints + column_constraints + square_constraints
+        return rowConsts + colConsts + squareConsts
 
     """
     Definition: Function to generate the binary constraints based on the rule constraints
     Input:
-        rules_constraints (list) - List of all rules constraints
+        rules (list) - List of all rules constraints
     Returns:
-        generated_binary_constraints (list) - List of all of the binary constraints
+        genBinConsts (list) - List of all of the binary constraints
     """
 
-    def generate_binary_constraints(self, rule_constraints):
-        generated_binary_constraints = list()
+    def genBinaryConstraints(self, rules):
+        genBinConsts = list()
 
-        # for each set of constraints
-        for constraint_set in rule_constraints:
+        for constraint in rules:
 
-            binary_constraints = list()
+            binaryConstraints = list()
 
-            # 2 because we want binary constraints
-            # solution taken from :
-            # https://stackoverflow.com/questions/464864/how-to-get-all-possible-combinations-of-a-list-s-elements
+            for t in itertools.permutations(constraint, 2):
+                binaryConstraints.append(t)
 
-            # for tuple_of_constraint in itertools.combinations(constraint_set, 2):
-            for tuple_of_constraint in itertools.permutations(constraint_set, 2):
-                binary_constraints.append(tuple_of_constraint)
+            for c in binaryConstraints:
+                constraint_as_list = list(c)
+                if(constraint_as_list not in genBinConsts):
+                    genBinConsts.append(
+                        [c[0], c[1]])
 
-            # for each of these binary constraints
-            for constraint in binary_constraints:
-
-                # check if we already have this constraint saved
-                # = check if already exists
-                # solution from https://stackoverflow.com/questions/7571635/fastest-way-to-check-if-a-value-exist-in-a-list
-                constraint_as_list = list(constraint)
-                if(constraint_as_list not in generated_binary_constraints):
-                    generated_binary_constraints.append(
-                        [constraint[0], constraint[1]])
-
-        return generated_binary_constraints
+        return genBinConsts
 
     """
     Definition: Function to generate the constraint-related cell for each one of the coordinates
     Input:
         None
     Returns:
-        related_cells (dictionary) - A hashset of all related cells for each cell
+        related (dictionary) - A hashset of all related cells for each cell
     """
 
-    def generate_related_cells(self):
-        related_cells = dict()
+    def generateRelated(self):
+        related = dict()
 
         # for each one of the 81 cells
         for cell in self.cells:
 
-            related_cells[cell] = list()
+            related[cell] = list()
 
             # related cells are the ones that current cell has constraints with
-            for constraint in self.binary_constraints:
+            for constraint in self.binaryConstraints:
                 if cell == constraint[0]:
-                    related_cells[cell].append(constraint[1])
+                    related[cell].append(constraint[1])
 
-        return related_cells
+        return related
 
     """
     checks if the Sudoku's solution is finished

@@ -84,11 +84,11 @@ def valid(board, num, pos):
             return False
 
     # Check Square
-    box_x = pos[1] // 3
-    box_y = pos[0] // 3
+    squareX = pos[1] // 3
+    squareY = pos[0] // 3
 
-    for i in range(box_y * 3, box_y * 3 + 3):
-        for j in range(box_x * 3, box_x * 3 + 3):
+    for i in range(squareY * 3, squareY * 3 + 3):
+        for j in range(squareX * 3, squareX * 3 + 3):
             if board[i][j] == num and (i, j) != pos:
                 return False
 
@@ -105,8 +105,8 @@ Definition: Function to find the first empty position
 
 
 def findEmpty(board):
-    for i in range(len(board)):
-        for j in range(len(board[0])):
+    for i, b in enumerate(board):
+        for j in range(len(b)):
             if board[i][j] == 0:
                 return (i, j)  # row, col
 
