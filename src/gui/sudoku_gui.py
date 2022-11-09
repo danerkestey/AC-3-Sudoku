@@ -6,9 +6,9 @@ from .style.entry_color_change import board_fg_to_blue
 
 from .function.utils import *
 from .function.RCB_color_change import *
-from .function.generate_game import gen_game
+from .function.generate_game import genGame
 from .function.entry_operations import (
-    update_board,
+    updateBoard,
     formatValue,
     delete_value,
     restart_board,
@@ -31,7 +31,7 @@ class GUI(STYLE):
         # Game Boards
         self.gameBoard = None
         self.readonlyBoard = np.zeros((9, 9), dtype=int)
-        self.hintBoard = None
+        self.solvedBoard = None
 
         # Entry Queue
         self.entryQueue = []
@@ -115,6 +115,14 @@ class GUI(STYLE):
                 # Update the entries with the user input
                 self.entryList[i][j] = entry
             rowsCount += 1
+
+    """
+    Definition: Function to generate the right side panel
+        Input:
+            None
+        Returns:
+            None
+    """
 
     def rightPanel(self):
 
@@ -252,9 +260,9 @@ class GUI(STYLE):
                            self.entryQueue[0][0], self.entryQueue[0][1])
 
                 # If the current input is wrong, change the text colour to red
-                if self.hintBoard is not None:
+                if self.solvedBoard is not None:
                     isValid(
-                        entry, self.hintBoard[self.entryQueue[0][0]][self.entryQueue[0][1]])
+                        entry, self.solvedBoard[self.entryQueue[0][0]][self.entryQueue[0][1]])
 
             # Highlight the current cell
             changeColor(self.entryList, self.readonlyBoard, x, y)
@@ -263,18 +271,24 @@ class GUI(STYLE):
         # remove value of current cell
         delete_value(self.entryList[x][y])
 
+    """
+    Definition: Function to randomly generate a game
+        Input:
+            dif (int) - The difficulty of the game selected
+        Returns:
+            None
+    """
+
     def gameGenerationAction(self, dif):
         if not self.running:
-            # Update Boards
-            self.gameBoard, self.hintBoard, self.readonlyBoard = gen_game(
+            # Update global boards with the new board
+            self.gameBoard, self.solvedBoard, self.readonlyBoard = genGame(
                 dif)
 
             # Insert Values in the GUI
-            update_board(self.gameBoard, self.entryList)
+            updateBoard(self.gameBoard, self.entryList)
 
             self.isClear = False
-
-            # clear Queue
             self.entryQueue.clear()
 
     def restartAction(self):
@@ -294,7 +308,7 @@ class GUI(STYLE):
         # reset all boards fill with 0
         self.gameBoard = None
         self.readonlyBoard = np.zeros((9, 9), dtype=int)
-        self.hintBoard = None
+        self.solvedBoard = None
 
         self.isClear = True
         self.entryQueue.clear()
@@ -314,10 +328,10 @@ class GUI(STYLE):
                     "AC3 was not enough to solve this problem on its own, starting backtracking!")
 
         preprocessed = turnStringToBoard(str(sudoku))
-        self.hintBoard = getHintBoard(
+        self.solvedBoard = getHintBoard(
             preprocessed,
             self.gameBoard,
-            self.hintBoard
+            self.solvedBoard
         )
         self.gameBoard = preprocessed.copy()
 
@@ -359,7 +373,7 @@ class GUI(STYLE):
 
         # setup environment
         setup_visual_solve(self._master, self.entryList,
-                           self.hintBoard, self.isClear, is_visual)
+                           self.solvedBoard, self.isClear, is_visual)
 
         # Solving
         speed_visual_solve(board)

@@ -47,7 +47,7 @@ def formatValue(entry):
 
 
 # insert values in gui with readonly mode
-def update_board(board, entryList):
+def updateBoard(board, entryList):
     for i in range(9):
         for j in range(9):
             entry = entryList[i][j]

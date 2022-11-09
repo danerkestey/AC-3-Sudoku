@@ -4,14 +4,22 @@ from .solver import *
 
 # Game Possible : 362880
 
+"""
+Definition: Function to randomly generate a game
+    Input:
+        dif (int) - The difficulty of the game selected
+    Returns:
+        None
+"""
 
-def gen_game(dif):
 
-    # Create Empty Board
+def genGame(dif):
+
+    # Define an empty board
     board = np.zeros((9, 9), dtype=int)
 
-    # Create Empty Hint Board
-    hint_board = np.zeros((9, 9), dtype=int)
+    # Define an empty solved board (will be updated with values)
+    solvedBoard = np.zeros((9, 9), dtype=int)
 
     # Add random number to first row
     board[0] = sample(range(1, 10), 9)
@@ -19,21 +27,20 @@ def gen_game(dif):
     # Solve the Board
     solve(board)
 
-    # Board 2d to 1d
-    # [9,9] -> [81]
+    # Convert the boards to a 1D array
     board = board.flatten()
-    hint_board = hint_board.flatten()
+    solvedBoard = solvedBoard.flatten()
 
-    # remove values as per dificulty
+    # Remove values as per dificulty
     for i in sample(range(81), dif):
-        hint_board[i] = board[i]
+        solvedBoard[i] = board[i]
         board[i] = 0
 
-    # reshape to [81] -> [9x9]
+    # Reshape the 1D array to a 2D matrix
     board = np.reshape(board, (9, 9))
-    hint_board = np.reshape(hint_board, (9, 9))
+    solvedBoard = np.reshape(solvedBoard, (9, 9))
 
     # Add False where value 0
-    disa_board = np.not_equal(board, 0)
+    readOnlyBoard = np.not_equal(board, 0)
 
-    return board, hint_board, disa_board
+    return board, solvedBoard, readOnlyBoard
