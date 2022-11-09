@@ -47,10 +47,10 @@ def format_value(entry):
 
 
 # insert values in gui with readonly mode
-def update_board(board, entry_list):
+def update_board(board, entryList):
     for i in range(9):
         for j in range(9):
-            entry = entry_list[i][j]
+            entry = entryList[i][j]
 
             normal_mode(entry)
 
@@ -69,10 +69,10 @@ def update_board(board, entry_list):
 
 # write values in gui of hint_board
 #   Speed solve
-def update_values(hint_board, entry_list, isAC3=False):
+def update_values(hint_board, entryList, isAC3=False):
     for i in range(9):
         for j in range(9):
-            entry = entry_list[i][j]
+            entry = entryList[i][j]
 
             # not in readonly mode
             if hint_board[i][j] > 0:
@@ -87,23 +87,23 @@ def update_values(hint_board, entry_list, isAC3=False):
 
 # delete all values from gui
 # not disabled ones
-def restart_board(board, entry_list):
+def restart_board(board, entryList):
 
     for i in range(9):
         for j in range(9):
 
             if board is None:
-                delete_value(entry_list[i][j])
+                delete_value(entryList[i][j])
             elif board[i][j] == 0:
-                delete_value(entry_list[i][j])
+                delete_value(entryList[i][j])
 
 
 # Clear all values from gui
 # with disabled ones
-def clear_all_board(board, entry_list):
+def clear_all_board(board, entryList):
     for i in range(9):
         for j in range(9):
-            entry = entry_list[i][j]
+            entry = entryList[i][j]
 
             if board is not None:
                 if board[i][j] > 0:
@@ -116,14 +116,14 @@ def clear_all_board(board, entry_list):
 
 # collect entry values from gui
 #   for speed_visual_solve
-def collect_entry_values(entry_list):
+def collect_entry_values(entryList):
 
     board = np.zeros((9, 9), dtype=int)
 
     for i in range(9):
         for j in range(9):
-            format_value(entry_list[i][j])
-            VALUE = entry_list[i][j].get()
+            format_value(entryList[i][j])
+            VALUE = entryList[i][j].get()
             try:
                 board[i][j] = int(VALUE)
             except:

@@ -29,13 +29,13 @@ def stop_solving():
     RUN = False
 
 
-def setup_visual_solve(master, entry_list, hint_board, is_clear, is_visual):
+def setup_visual_solve(master, entryList, hint_board, is_clear, is_visual):
     global IS_CLEAR, IS_VISUAL, HINT_BOARD, ENTRY_LIST, MASTER, RUN
 
     IS_CLEAR = is_clear
     IS_VISUAL = is_visual
     HINT_BOARD = hint_board
-    ENTRY_LIST = entry_list
+    ENTRY_LIST = entryList
     MASTER = master
     RUN = True
 

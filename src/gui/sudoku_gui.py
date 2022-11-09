@@ -26,10 +26,10 @@ class GUI(STYLE):
         self._master = _master
 
         # Game Board Entry boxes
-        self.Entry_list = [[" " for i in range(9)] for j in range(9)]
+        self.entryList = [[" " for i in range(9)] for j in range(9)]
 
         # Game Boards
-        self.Game_board = None
+        self.gameBoard = None
         self.Readonly_board = np.zeros((9, 9), dtype=int)
         self.Hint_board = None
 
@@ -62,30 +62,30 @@ class GUI(STYLE):
         self.c_pos_x = x
         self.c_pos_y = y
 
-    # Generate 81 input boxes with space between them after 3
-    # Frame at 0,0
-    def generate_sudoku_board(self):
-        Board_frame = tk.Frame(self._master)
-        Board_frame.grid(row=0, column=0, pady=2)
+    def generateEmptyBoard(self):
+        boardFrame = tk.Frame(self._master)
+        boardFrame.grid(row=0, column=0, pady=2)
 
-        p = 0
+        rowsCount = 0
         for i in range(9):
-            q = 0
+            colsCount = 0
             for j in range(9):
-                # Space Between rows
-                if (p+1) % 4 == 0 and p != 0:
-                    l1 = tk.Canvas(Board_frame, width=1, height=1, bg="white")
-                    l1.grid(row=p, column=q)
-                    p += 1
+                # Defines the space between the rows, we want a larger space after 3 boxes
+                if (rowsCount + 1) % 4 == 0 and rowsCount != 0:
+                    canvas = tk.Canvas(boardFrame, width=1,
+                                       height=1, bg="white")
+                    canvas.grid(row=rowsCount, column=colsCount)
+                    rowsCount += 1
                 # Space Between columns
-                if (q+1) % 4 == 0 and q != 0:
-                    l1 = tk.Canvas(Board_frame, width=1, height=1, bg="white")
-                    l1.grid(row=p, column=q)
-                    q += 1
+                if (colsCount + 1) % 4 == 0 and colsCount != 0:
+                    canvas = tk.Canvas(boardFrame, width=1,
+                                       height=1, bg="white")
+                    canvas.grid(row=rowsCount, column=colsCount)
+                    colsCount += 1
 
                 # Create Entry Boxes
                 entry = tk.Entry(
-                    Board_frame,
+                    boardFrame,
                     width=2,
                     font=("Helvetica", 30),
                     bg="white",
@@ -93,7 +93,7 @@ class GUI(STYLE):
                     validate="key",
                     validatecommand=(self.only_digit, '%P'))
 
-                entry.grid(row=p, column=q)
+                entry.grid(row=rowsCount, column=colsCount)
 
                 # bind funtion to update (c_pos_x, c_pos_y) when user select any box
                 entry.bind("<Button-1>", lambda e=None, x=i,
@@ -102,9 +102,9 @@ class GUI(STYLE):
                            y=j: self.entry_on_right_click(x, y))
 
                 entry.insert(0, " ")
-                q += 1
-                self.Entry_list[i][j] = entry
-            p += 1
+                colsCount += 1
+                self.entryList[i][j] = entry
+            rowsCount += 1
 
     # Frame At 0,1
     def right_side_option_block(self):
@@ -228,13 +228,13 @@ class GUI(STYLE):
 
             # remove highlight color from previously selected cell
             if len(self.Entry_Queue) == 2:
-                entry = self.Entry_list[self.Entry_Queue[0]
-                                        [0]][self.Entry_Queue[0][1]]
+                entry = self.entryList[self.Entry_Queue[0]
+                                       [0]][self.Entry_Queue[0][1]]
 
                 format_value(entry)
 
                 # Remove Highlight of RCB Color
-                reset_RCB_color(self.Entry_list, self.Readonly_board,
+                reset_RCB_color(self.entryList, self.Readonly_board,
                                 self.Entry_Queue[0][0], self.Entry_Queue[0][1])
 
                 # if value(answer) is wrong then change color to red
@@ -243,20 +243,20 @@ class GUI(STYLE):
                         entry, self.Hint_board[self.Entry_Queue[0][0]][self.Entry_Queue[0][1]])
 
             # Highlight RCB Color
-            change_RCB_color(self.Entry_list, self.Readonly_board, x, y)
+            change_RCB_color(self.entryList, self.Readonly_board, x, y)
 
     def entry_on_right_click(self, x, y):
         # remove value of current cell
-        delete_value(self.Entry_list[x][y])
+        delete_value(self.entryList[x][y])
 
     def easy_hard_game_button_action(self, dif):
         if not self.running:
             # Update Boards
-            self.Game_board, self.Hint_board, self.Readonly_board = gen_game(
+            self.gameBoard, self.Hint_board, self.Readonly_board = gen_game(
                 dif)
 
             # Insert Values in the GUI
-            update_board(self.Game_board, self.Entry_list)
+            update_board(self.gameBoard, self.entryList)
 
             self.is_clear = False
 
@@ -268,17 +268,17 @@ class GUI(STYLE):
         stop_solving()
 
         # Just remove user input values not readonly ones
-        restart_board(self.Game_board, self.Entry_list)
+        restart_board(self.gameBoard, self.entryList)
 
     def clear_all_button_action(self):
         # Stop Visual Solving
         stop_solving()
 
         # clear all game
-        clear_all_board(self.Game_board, self.Entry_list)
+        clear_all_board(self.gameBoard, self.entryList)
 
         # reset all boards fill with 0
-        self.Game_board = None
+        self.gameBoard = None
         self.Readonly_board = np.zeros((9, 9), dtype=int)
         self.Hint_board = None
 
@@ -286,7 +286,7 @@ class GUI(STYLE):
         self.Entry_Queue.clear()
 
     def ac3_action(self):
-        grid = turnBoardToString(self.Game_board)
+        grid = turnBoardToString(self.gameBoard)
         sudoku = Sudoku(grid)
         AC3_result = AC3(sudoku)
 
@@ -302,14 +302,14 @@ class GUI(STYLE):
         preprocessed = turnStringToBoard(str(sudoku))
         self.Hint_board = getHintBoard(
             preprocessed,
-            self.Game_board,
+            self.gameBoard,
             self.Hint_board
         )
-        self.Game_board = preprocessed.copy()
+        self.gameBoard = preprocessed.copy()
 
         update_values(
-            self.Game_board,
-            self.Entry_list,
+            self.gameBoard,
+            self.entryList,
             True
         )
 
@@ -335,16 +335,16 @@ class GUI(STYLE):
 
         # Game Not Generate collect values from input box
         if self.is_clear:
-            board = collect_entry_values(self.Entry_list)
-            self.Game_board = board.copy()
+            board = collect_entry_values(self.entryList)
+            self.gameBoard = board.copy()
         else:
             # copy current generated board
-            board = self.Game_board.copy()
+            board = self.gameBoard.copy()
 
         b = board.copy()
 
         # setup environment
-        setup_visual_solve(self._master, self.Entry_list,
+        setup_visual_solve(self._master, self.entryList,
                            self.Hint_board, self.is_clear, is_visual)
 
         # Solving
@@ -352,7 +352,7 @@ class GUI(STYLE):
 
         # visual call then current selected cell to blue
         if is_visual:
-            board_fg_to_blue(self.Entry_list, self.Game_board)
+            board_fg_to_blue(self.entryList, self.gameBoard)
 
         # delete temp boards
         del b, board

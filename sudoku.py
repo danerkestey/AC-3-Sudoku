@@ -27,7 +27,7 @@ def main():
         pass
 
     Game = GUI(root)
-    Game.generate_sudoku_board()
+    Game.generateEmptyBoard()
     Game.right_side_option_block()
 
     root.mainloop()

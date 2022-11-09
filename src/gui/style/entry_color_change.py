@@ -118,12 +118,12 @@ def fg_to_white(entry):
 
 #   -------------------- Board Color Change ------------------    #
 
-def board_fg_to_blue(entry_list, board):
+def board_fg_to_blue(entryList, board):
     for i in range(9):
         for j in range(9):
             # try:
-            bg_to_white(entry_list[i][j])
+            bg_to_white(entryList[i][j])
             if board[i][j] == 0:
-                fg_to_blue(entry_list[i][j])
+                fg_to_blue(entryList[i][j])
             # except:
-            readonly_to_white(entry_list[i][j])
+            readonly_to_white(entryList[i][j])
