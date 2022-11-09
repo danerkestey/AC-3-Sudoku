@@ -132,21 +132,21 @@ class GUI(STYLE):
 
         # Button to create an easy game
         easyGame = tk.Button(newGame, text="Easy",
-                             command=lambda: self.gameGenerationActionButton(41))
+                             command=lambda: self.gameGenerationAction(41))
 
         self.OptionButtonAddStyle(easyGame)  # Add styles to button
 
-        easyGame.grid(row=0, column=0, padx=self.Option_Button_padx,
-                      pady=self.Option_Button_pady)
+        easyGame.grid(row=0, column=0, padx=self.optionButtonPadX,
+                      pady=self.optionButtonPadY)
 
         # Button to create a hard game
         hardGame = tk.Button(newGame, text="Hard",
-                             command=lambda: self.gameGenerationActionButton(56))
+                             command=lambda: self.gameGenerationAction(56))
 
         self.OptionButtonAddStyle(hardGame)  # Add styles to button
 
-        hardGame.grid(row=0, column=1, padx=self.Option_Button_padx,
-                      pady=self.Option_Button_pady)
+        hardGame.grid(row=0, column=1, padx=self.optionButtonPadX,
+                      pady=self.optionButtonPadY)
 
         newGame.grid(row=0, column=0, pady=self.optionFramePadY)
 
@@ -157,58 +157,63 @@ class GUI(STYLE):
         # Button to restart the game
         restartGame = tk.Button(
             clear, text="Restart", command=self.restartAction)
-        self.OptionButtonAddStyle(restartGame)
-        restartGame.grid(
-            row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
-        clear_all_game = tk.Button(
-            clear, text="Clear All", command=self.clear_all_button_action)
-        self.OptionButtonAddStyle(clear_all_game)
-        clear_all_game.grid(
-            row=0, column=1, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
+        self.OptionButtonAddStyle(restartGame)  # Add styles to the button
+
+        restartGame.grid(
+            row=0, column=0, padx=self.optionButtonPadX, pady=self.optionButtonPadY)
+
+        # Button to clear the game
+        clearGame = tk.Button(
+            clear, text="Clear All", command=self.clearAction)
+
+        self.OptionButtonAddStyle(clearGame)  # Add styles to the button
+
+        clearGame.grid(
+            row=0, column=1, padx=self.optionButtonPadX, pady=self.optionButtonPadY)
 
         clear.grid(row=1, column=0, pady=self.optionFramePadY)
-        # {1-2-2}
 
-        # {1-2-3} Solve LabelFrame = [ visual, Speed ]
-        # +------------------------------+
-        # |            SOLVE             |
-        # +------------------------------+
-        solve_label_frame = tk.LabelFrame(option, text="  SOLVE  ")
-        self.OptionFrameAddStyle(solve_label_frame)
+        # Define GUI to solve the game
+        solve = tk.LabelFrame(option, text="  SOLVE  ")
+        self.OptionFrameAddStyle(solve)
 
-        visual_game = tk.Button(solve_label_frame, text="Visual",
-                                command=lambda: self.speed_visual_solve_button_action(True))
-        self.OptionButtonAddStyle(visual_game)
-        visual_game.grid(
-            row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
+        # Button to solve the game in a visual iteration
+        visual = tk.Button(solve, text="Visual",
+                           command=lambda: self.speed_visual_solve_button_action(True))
 
-        speed_game = tk.Button(solve_label_frame, text="Speed",
-                               command=lambda: self.speed_visual_solve_button_action(False))
-        self.OptionButtonAddStyle(speed_game)
-        speed_game.grid(
-            row=0, column=1, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
+        self.OptionButtonAddStyle(visual)  # Add styles to the button
 
-        solve_label_frame.grid(row=2, column=0, pady=self.optionFramePadY)
+        visual.grid(
+            row=0, column=0, padx=self.optionButtonPadX, pady=self.optionButtonPadY)
 
-        # -------------------------------------------------
-        ac3_label_frame = tk.LabelFrame(option, text="  AC3  ")
-        self.OptionFrameAddStyle(ac3_label_frame)
+        # Button to solve the game instantaneously
+        speed = tk.Button(solve, text="Speed",
+                          command=lambda: self.speed_visual_solve_button_action(False))
 
-        ac3_button = tk.Button(ac3_label_frame, text="AC3",
-                               command=lambda: self.ac3_action())
-        self.OptionButtonAddStyle(ac3_button)
-        ac3_button.grid(
-            row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
+        self.OptionButtonAddStyle(speed)  # Add styles to the button
 
-        ac3_label_frame.grid(row=3, column=0, pady=self.optionFramePadY)
-        # {1-2-3}
+        speed.grid(
+            row=0, column=1, padx=self.optionButtonPadX, pady=self.optionButtonPadY)
 
+        solve.grid(row=2, column=0, pady=self.optionFramePadY)
+
+        # Define the GUI for the AC-3 CSP preprocessing
+        csp = tk.LabelFrame(option, text="  AC3  ")
+        self.OptionFrameAddStyle(csp)
+
+        # Button to run the AC-3 Algorithm
+        ac3 = tk.Button(csp, text="AC3",
+                        command=lambda: self.ac3_action())
+
+        self.OptionButtonAddStyle(ac3)  # Add styles to the button
+
+        ac3.grid(
+            row=0, column=0, padx=self.optionButtonPadX, pady=self.optionButtonPadY)
+
+        csp.grid(row=3, column=0, pady=self.optionFramePadY)
         option.grid(row=1, column=0)
-        # {1-2}
-
         panelFrame.grid(row=0, column=1, padx=10)
-        # {1}
 
     # Actions when entry box selected
     def entryOnLeftClick(self, x, y):
@@ -242,7 +247,7 @@ class GUI(STYLE):
         # remove value of current cell
         delete_value(self.entryList[x][y])
 
-    def gameGenerationActionButton(self, dif):
+    def gameGenerationAction(self, dif):
         if not self.running:
             # Update Boards
             self.gameBoard, self.hintBoard, self.readonlyBoard = gen_game(
@@ -263,7 +268,7 @@ class GUI(STYLE):
         # Just remove user input values not readonly ones
         restart_board(self.gameBoard, self.entryList)
 
-    def clear_all_button_action(self):
+    def clearAction(self):
         # Stop Visual Solving
         stop_solving()
 
