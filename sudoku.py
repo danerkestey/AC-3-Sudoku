@@ -28,7 +28,7 @@ def main():
 
     Game = GUI(root)
     Game.generateEmptyBoard()
-    Game.right_side_option_block()
+    Game.rightPanel()
 
     root.mainloop()
 

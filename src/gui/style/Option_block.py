@@ -25,6 +25,6 @@ class Option_Style:
         self.Option_Button_pady = self.Option_Button["pady"]
 
         # LabelFrame Style Variables
-        self.Option_Frame_pady = self.Option_Frame["pady"]
+        self.optionFramePadY = self.Option_Frame["pady"]
 
         file.close()

@@ -30,19 +30,19 @@ class GUI(STYLE):
 
         # Game Boards
         self.gameBoard = None
-        self.Readonly_board = np.zeros((9, 9), dtype=int)
-        self.Hint_board = None
+        self.readonlyBoard = np.zeros((9, 9), dtype=int)
+        self.hintBoard = None
 
         # Entry Queue
-        self.Entry_Queue = []
+        self.entryQueue = []
 
         # Current Selected Position by User
         self.c_pos_x = None
         self.c_pos_y = None
 
         # Permission
-        self.is_clear = True
-        self.visual_running = False
+        self.isClear = True
+        self.visualRunning = False
 
         # Register new Function
         self.only_digit = self._master.register(ONLY_DIGIT)
@@ -66,24 +66,25 @@ class GUI(STYLE):
         boardFrame = tk.Frame(self._master)
         boardFrame.grid(row=0, column=0, pady=2)
 
+        # Defines the space between the rows/columns, we want a larger space after 3 boxes
         rowsCount = 0
         for i in range(9):
             colsCount = 0
             for j in range(9):
-                # Defines the space between the rows, we want a larger space after 3 boxes
+                # Add space between the rows or columns when the current cell is the 4th one
                 if (rowsCount + 1) % 4 == 0 and rowsCount != 0:
                     canvas = tk.Canvas(boardFrame, width=1,
                                        height=1, bg="white")
                     canvas.grid(row=rowsCount, column=colsCount)
                     rowsCount += 1
-                # Space Between columns
+
                 if (colsCount + 1) % 4 == 0 and colsCount != 0:
                     canvas = tk.Canvas(boardFrame, width=1,
                                        height=1, bg="white")
                     canvas.grid(row=rowsCount, column=colsCount)
                     colsCount += 1
 
-                # Create Entry Boxes
+                # Define the input boxes
                 entry = tk.Entry(
                     boardFrame,
                     width=2,
@@ -95,175 +96,167 @@ class GUI(STYLE):
 
                 entry.grid(row=rowsCount, column=colsCount)
 
-                # bind funtion to update (c_pos_x, c_pos_y) when user select any box
+                # Update the current position of the cell when the user clicks on the box
                 entry.bind("<Button-1>", lambda e=None, x=i,
-                           y=j: self.entry_on_left_click(x, y))
+                           y=j: self.entryOnLeftClick(x, y))
                 entry.bind("<Button-3>", lambda e=None, x=i,
                            y=j: self.entry_on_right_click(x, y))
 
                 entry.insert(0, " ")
                 colsCount += 1
+                # Update the entries with the user input
                 self.entryList[i][j] = entry
             rowsCount += 1
 
-    # Frame At 0,1
-    def right_side_option_block(self):
+    def rightPanel(self):
 
-        # {1} Main Right side frame
-        right_block_frame = tk.Frame(self._master, bg="white")
+        # Define the right-side panel frame
+        panelFrame = tk.Frame(self._master, bg="white")
 
-        # {1-1} Title Frame = [ "SUDOKU" ]
-        # +------------------------------+
-        # |           SUDOKU             |
-        # +------------------------------+
-        title_frame = tk.Frame(right_block_frame, bg="white")
-
-        # "SUDOKU" Title
-        title = tk.Label(title_frame,
-                         text="SUDOKU",
+        # Define GUI for the Title
+        title = tk.Frame(panelFrame, bg="white")
+        title = tk.Label(title,
+                         text="CP468 Sudoku Solver!",
                          fg=self.Option_title["fg"],
                          bg=self.Option_title["bg"],
                          font=self.Option_title["font"]
                          )
         title.grid(row=0, column=0)
+        title.grid(row=0, column=0)
 
-        title_frame.grid(row=0, column=0)
-        # {1-1}
+        option = tk.Frame(panelFrame, bg="white")
 
-        # {1-2}  All Button option [ New Game, Clear, Help, Solve ]
-        option_frame = tk.Frame(right_block_frame, bg="white")
+        # Define the buttons for a random new new game
+        newGame = tk.LabelFrame(option, text="  NEW GAME ")
+        self.OptionFrameAddStyle(newGame)
 
-        # {1-2-1} New Game LabelFrame = [ Easy, Hard ]
-        # +------------------------------+
-        # |          NEW Game            |
-        # +------------------------------+
-        new_game_label_frame = tk.LabelFrame(option_frame, text="  NEW GAME ")
-        self.Option_Frame_Add_Style(new_game_label_frame)
+        # Button to create an easy game
+        easyGame = tk.Button(newGame, text="Easy",
+                             command=lambda: self.gameGenerationActionButton(41))
 
-        easy_game = tk.Button(new_game_label_frame, text="Easy",
-                              command=lambda: self.easy_hard_game_button_action(41))
-        self.Option_Button_Add_Style(easy_game)
-        easy_game.grid(row=0, column=0, padx=self.Option_Button_padx,
-                       pady=self.Option_Button_pady)
+        self.OptionButtonAddStyle(easyGame)  # Add styles to button
 
-        hard_game = tk.Button(new_game_label_frame, text="Hard",
-                              command=lambda: self.easy_hard_game_button_action(56))
-        self.Option_Button_Add_Style(hard_game)
-        hard_game.grid(row=0, column=1, padx=self.Option_Button_padx,
-                       pady=self.Option_Button_pady)
+        easyGame.grid(row=0, column=0, padx=self.Option_Button_padx,
+                      pady=self.Option_Button_pady)
 
-        new_game_label_frame.grid(row=0, column=0, pady=self.Option_Frame_pady)
-        # {1-2-1}
+        # Button to create a hard game
+        hardGame = tk.Button(newGame, text="Hard",
+                             command=lambda: self.gameGenerationActionButton(56))
 
-        # {1-2-2} Clear LabelFrame = [ Restart, Clear All ]
-        # +------------------------------+
-        # |            CLEAR             |
-        # +------------------------------+
-        clear_label_frame = tk.LabelFrame(option_frame, text="  CLEAR  ")
-        self.Option_Frame_Add_Style(clear_label_frame)
+        self.OptionButtonAddStyle(hardGame)  # Add styles to button
 
-        restart_game = tk.Button(
-            clear_label_frame, text="Restart", command=self.restart_button_action)
-        self.Option_Button_Add_Style(restart_game)
-        restart_game.grid(
+        hardGame.grid(row=0, column=1, padx=self.Option_Button_padx,
+                      pady=self.Option_Button_pady)
+
+        newGame.grid(row=0, column=0, pady=self.optionFramePadY)
+
+        # Defines GUI to clear the game
+        clear = tk.LabelFrame(option, text="  CLEAR  ")
+        self.OptionFrameAddStyle(clear)
+
+        # Button to restart the game
+        restartGame = tk.Button(
+            clear, text="Restart", command=self.restartAction)
+        self.OptionButtonAddStyle(restartGame)
+        restartGame.grid(
             row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
         clear_all_game = tk.Button(
-            clear_label_frame, text="Clear All", command=self.clear_all_button_action)
-        self.Option_Button_Add_Style(clear_all_game)
+            clear, text="Clear All", command=self.clear_all_button_action)
+        self.OptionButtonAddStyle(clear_all_game)
         clear_all_game.grid(
             row=0, column=1, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
-        clear_label_frame.grid(row=1, column=0, pady=self.Option_Frame_pady)
+        clear.grid(row=1, column=0, pady=self.optionFramePadY)
         # {1-2-2}
 
         # {1-2-3} Solve LabelFrame = [ visual, Speed ]
         # +------------------------------+
         # |            SOLVE             |
         # +------------------------------+
-        solve_label_frame = tk.LabelFrame(option_frame, text="  SOLVE  ")
-        self.Option_Frame_Add_Style(solve_label_frame)
+        solve_label_frame = tk.LabelFrame(option, text="  SOLVE  ")
+        self.OptionFrameAddStyle(solve_label_frame)
 
         visual_game = tk.Button(solve_label_frame, text="Visual",
                                 command=lambda: self.speed_visual_solve_button_action(True))
-        self.Option_Button_Add_Style(visual_game)
+        self.OptionButtonAddStyle(visual_game)
         visual_game.grid(
             row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
         speed_game = tk.Button(solve_label_frame, text="Speed",
                                command=lambda: self.speed_visual_solve_button_action(False))
-        self.Option_Button_Add_Style(speed_game)
+        self.OptionButtonAddStyle(speed_game)
         speed_game.grid(
             row=0, column=1, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
-        solve_label_frame.grid(row=2, column=0, pady=self.Option_Frame_pady)
+        solve_label_frame.grid(row=2, column=0, pady=self.optionFramePadY)
 
         # -------------------------------------------------
-        ac3_label_frame = tk.LabelFrame(option_frame, text="  AC3  ")
-        self.Option_Frame_Add_Style(ac3_label_frame)
+        ac3_label_frame = tk.LabelFrame(option, text="  AC3  ")
+        self.OptionFrameAddStyle(ac3_label_frame)
 
         ac3_button = tk.Button(ac3_label_frame, text="AC3",
                                command=lambda: self.ac3_action())
-        self.Option_Button_Add_Style(ac3_button)
+        self.OptionButtonAddStyle(ac3_button)
         ac3_button.grid(
             row=0, column=0, padx=self.Option_Button_padx, pady=self.Option_Button_pady)
 
-        ac3_label_frame.grid(row=3, column=0, pady=self.Option_Frame_pady)
+        ac3_label_frame.grid(row=3, column=0, pady=self.optionFramePadY)
         # {1-2-3}
 
-        option_frame.grid(row=1, column=0)
+        option.grid(row=1, column=0)
         # {1-2}
 
-        right_block_frame.grid(row=0, column=1, padx=10)
+        panelFrame.grid(row=0, column=1, padx=10)
         # {1}
 
     # Actions when entry box selected
-    def entry_on_left_click(self, x, y):
-        if not self.visual_running:
-            # Add to entry_queue
-            self.add_to_entry_queue(x, y)
+    def entryOnLeftClick(self, x, y):
+        if not self.visualRunning:
+            # Add to entryQueue
+            self.add_to_entryQueue(x, y)
 
             # update current position
             self.update_current_position(x, y)
 
             # remove highlight color from previously selected cell
-            if len(self.Entry_Queue) == 2:
-                entry = self.entryList[self.Entry_Queue[0]
-                                       [0]][self.Entry_Queue[0][1]]
+            if len(self.entryQueue) == 2:
+                entry = self.entryList[self.entryQueue[0]
+                                       [0]][self.entryQueue[0][1]]
 
                 format_value(entry)
 
                 # Remove Highlight of RCB Color
-                reset_RCB_color(self.entryList, self.Readonly_board,
-                                self.Entry_Queue[0][0], self.Entry_Queue[0][1])
+                reset_RCB_color(self.entryList, self.readonlyBoard,
+                                self.entryQueue[0][0], self.entryQueue[0][1])
 
                 # if value(answer) is wrong then change color to red
-                if self.Hint_board is not None:
+                if self.hintBoard is not None:
                     is_valid(
-                        entry, self.Hint_board[self.Entry_Queue[0][0]][self.Entry_Queue[0][1]])
+                        entry, self.hintBoard[self.entryQueue[0][0]][self.entryQueue[0][1]])
 
             # Highlight RCB Color
-            change_RCB_color(self.entryList, self.Readonly_board, x, y)
+            change_RCB_color(self.entryList, self.readonlyBoard, x, y)
 
     def entry_on_right_click(self, x, y):
         # remove value of current cell
         delete_value(self.entryList[x][y])
 
-    def easy_hard_game_button_action(self, dif):
+    def gameGenerationActionButton(self, dif):
         if not self.running:
             # Update Boards
-            self.gameBoard, self.Hint_board, self.Readonly_board = gen_game(
+            self.gameBoard, self.hintBoard, self.readonlyBoard = gen_game(
                 dif)
 
             # Insert Values in the GUI
             update_board(self.gameBoard, self.entryList)
 
-            self.is_clear = False
+            self.isClear = False
 
             # clear Queue
-            self.Entry_Queue.clear()
+            self.entryQueue.clear()
 
-    def restart_button_action(self):
+    def restartAction(self):
         # Stop Visual Solving
         stop_solving()
 
@@ -279,11 +272,11 @@ class GUI(STYLE):
 
         # reset all boards fill with 0
         self.gameBoard = None
-        self.Readonly_board = np.zeros((9, 9), dtype=int)
-        self.Hint_board = None
+        self.readonlyBoard = np.zeros((9, 9), dtype=int)
+        self.hintBoard = None
 
-        self.is_clear = True
-        self.Entry_Queue.clear()
+        self.isClear = True
+        self.entryQueue.clear()
 
     def ac3_action(self):
         grid = turnBoardToString(self.gameBoard)
@@ -300,10 +293,10 @@ class GUI(STYLE):
                     "AC3 was not enough to solve this problem on its own, starting backtracking!")
 
         preprocessed = turnStringToBoard(str(sudoku))
-        self.Hint_board = getHintBoard(
+        self.hintBoard = getHintBoard(
             preprocessed,
             self.gameBoard,
-            self.Hint_board
+            self.hintBoard
         )
         self.gameBoard = preprocessed.copy()
 
@@ -313,10 +306,10 @@ class GUI(STYLE):
             True
         )
 
-        self.is_clear = False
+        self.isClear = False
 
         # clear Queue
-        self.Entry_Queue.clear()
+        self.entryQueue.clear()
 
     # +---------------------------------------------+
     # |         Speed & Visual Solve Action         |
@@ -331,10 +324,10 @@ class GUI(STYLE):
         if is_visual:
             self.start_running()
 
-        self.visual_running = True
+        self.visualRunning = True
 
         # Game Not Generate collect values from input box
-        if self.is_clear:
+        if self.isClear:
             board = collect_entry_values(self.entryList)
             self.gameBoard = board.copy()
         else:
@@ -345,7 +338,7 @@ class GUI(STYLE):
 
         # setup environment
         setup_visual_solve(self._master, self.entryList,
-                           self.Hint_board, self.is_clear, is_visual)
+                           self.hintBoard, self.isClear, is_visual)
 
         # Solving
         speed_visual_solve(board)
@@ -357,14 +350,14 @@ class GUI(STYLE):
         # delete temp boards
         del b, board
 
-        self.visual_running = False
+        self.visualRunning = False
 
         # running -> False | if visual call
         if is_visual:
             self.stop_running()
 
     # FILO to store last clicked entry
-    def add_to_entry_queue(self, x, y):
-        if len(self.Entry_Queue) == 2:
-            self.Entry_Queue.pop(0)
-        self.Entry_Queue.append([x, y])
+    def add_to_entryQueue(self, x, y):
+        if len(self.entryQueue) == 2:
+            self.entryQueue.pop(0)
+        self.entryQueue.append([x, y])

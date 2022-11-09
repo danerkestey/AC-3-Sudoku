@@ -6,7 +6,7 @@ class STYLE(Option_Style):
         super().__init__()
 
     # Add All Style Variable/Attribute to Option Buttons
-    def Option_Button_Add_Style(self, Button) -> None:
+    def OptionButtonAddStyle(self, Button) -> None:
         Button.config(
             width=self.Option_Button["width"],
             bg=self.Option_Button["bg_color"],
@@ -26,7 +26,7 @@ class STYLE(Option_Style):
             "<Leave>", lambda e: self.Option_Button_on_collision_out(Button))
 
     # Add All Style Variable/Attribute to Option Frame/LabelFrame
-    def Option_Frame_Add_Style(self, Frame) -> None:
+    def OptionFrameAddStyle(self, Frame) -> None:
         Frame.config(
             bg=self.Option_Frame["bg_color"],
             relief=self.Option_Frame["relief"],
