@@ -58,9 +58,17 @@ class GUI(STYLE):
     def stop_running(self):
         self.running = False
 
-    def update_current_position(self, x, y):
+    def updateCurrPos(self, x, y):
         self.c_pos_x = x
         self.c_pos_y = y
+
+    """
+    Definition: Function to generate an empty board
+        Input:
+            None
+        Returns:
+            None
+    """
 
     def generateEmptyBoard(self):
         boardFrame = tk.Frame(self._master)
@@ -99,8 +107,8 @@ class GUI(STYLE):
                 # Update the current position of the cell when the user clicks on the box
                 entry.bind("<Button-1>", lambda e=None, x=i,
                            y=j: self.entryOnLeftClick(x, y))
-                entry.bind("<Button-3>", lambda e=None, x=i,
-                           y=j: self.entry_on_right_click(x, y))
+                entry.bind("<Button-2>", lambda e=None, x=i,
+                           y=j: self.entryOnRightClick(x, y))
 
                 entry.insert(0, " ")
                 colsCount += 1
@@ -115,13 +123,13 @@ class GUI(STYLE):
 
         # Define GUI for the Title
         title = tk.Frame(panelFrame, bg="white")
-        title = tk.Label(title,
-                         text="CP468 Sudoku Solver!",
-                         fg=self.Option_title["fg"],
-                         bg=self.Option_title["bg"],
-                         font=self.Option_title["font"]
-                         )
-        title.grid(row=0, column=0)
+        titleLabel = tk.Label(title,
+                              text="SUDOKU",
+                              fg=self.Option_title["fg"],
+                              bg=self.Option_title["bg"],
+                              font=self.Option_title["font"]
+                              )
+        titleLabel.grid(row=0, column=0)
         title.grid(row=0, column=0)
 
         option = tk.Frame(panelFrame, bg="white")
@@ -215,14 +223,22 @@ class GUI(STYLE):
         option.grid(row=1, column=0)
         panelFrame.grid(row=0, column=1, padx=10)
 
-    # Actions when entry box selected
+    """
+    Definition: Function to define actions to perform when user left clicks
+        Input:
+            x (int) - x position of the entry
+            y (int) - y position of the entry
+        Returns:
+            None
+    """
+
     def entryOnLeftClick(self, x, y):
         if not self.visualRunning:
             # Add to entryQueue
-            self.add_to_entryQueue(x, y)
+            self.addToQueue(x, y)
 
             # update current position
-            self.update_current_position(x, y)
+            self.updateCurrPos(x, y)
 
             # remove highlight color from previously selected cell
             if len(self.entryQueue) == 2:
@@ -243,7 +259,7 @@ class GUI(STYLE):
             # Highlight RCB Color
             change_RCB_color(self.entryList, self.readonlyBoard, x, y)
 
-    def entry_on_right_click(self, x, y):
+    def entryOnRightClick(self, x, y):
         # remove value of current cell
         delete_value(self.entryList[x][y])
 
@@ -362,7 +378,7 @@ class GUI(STYLE):
             self.stop_running()
 
     # FILO to store last clicked entry
-    def add_to_entryQueue(self, x, y):
+    def addToQueue(self, x, y):
         if len(self.entryQueue) == 2:
             self.entryQueue.pop(0)
         self.entryQueue.append([x, y])
