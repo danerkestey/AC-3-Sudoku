@@ -72,24 +72,3 @@ You can input a sudoku puzzle from any website and the solver will solve it for 
 ![Speed Solve](https://user-images.githubusercontent.com/62321150/156776614-d5f98b06-586a-49c8-a813-200de7494133.gif)
 
 ![Bot-auto-typer](https://user-images.githubusercontent.com/62321150/156776123-2b29e926-2171-477d-b9c2-dae61975fcbe.gif)
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-* [Computerphile - YouTube Video](https://www.youtube.com/watch?v=G_UYXzGuqvM&ab_channel=Computerphile)
-* [Tech With Tim - YouTube Video](https://youtube.com/playlist?list=PLzMcBGfZo4-kE3aF6Y0wNBNih7hWRAU2o)
-* [sudoku.com](https://sudoku.com/)
-
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-[contributors-shield]: https://img.shields.io/github/contributors/NisheetNakrani/Sudoku-Solver-Pro?style=for-the-badge
-[contributors-url]: https://github.com/NisheetNakrani/Sudoku-Solver-Pro/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/NisheetNakrani/Sudoku-Solver-Pro?style=for-the-badge
-[forks-url]: https://github.com/NisheetNakrani/Sudoku-Solver-Pro/network/members
-[stars-shield]: https://img.shields.io/github/stars/NisheetNakrani/Sudoku-Solver-Pro?style=for-the-badge
-[stars-url]: https://github.com/NisheetNakrani/Sudoku-Solver-Pro
-[issues-shield]: https://img.shields.io/github/issues/NisheetNakrani/Sudoku-Solver-Pro?style=for-the-badge
-[issues-url]: https://github.com/NisheetNakrani/Sudoku-Solver-Pro/issues
