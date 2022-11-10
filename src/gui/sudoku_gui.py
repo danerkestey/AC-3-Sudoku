@@ -322,6 +322,13 @@ class GUI(STYLE):
     """
 
     def ac3Action(self):
+        if self.isClear:
+            board = getEntryValues(self.entryList)
+            self.gameBoard = board.copy()
+            solve(board)
+            self.solvedBoard = board.copy()
+
+        print(self.gameBoard)
         grid = turnBoardToString(self.gameBoard)
         sudoku = Sudoku(grid)
         AC3Result = AC3(sudoku)
