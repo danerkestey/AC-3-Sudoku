@@ -8,7 +8,7 @@ class Sudoku:
     def __init__(self, grid):
         self.cells = self.genCoords()
 
-        self.possibilities = self.genPossibilities(grid)
+        self.domain = self.genDomain(grid)
 
         RULES = self.genRulesConstraints()
         self.binaryConstraints = self.genBinaryConstraints(
@@ -42,7 +42,7 @@ class Sudoku:
         possibilities (dictionary) - A hashset of all possibilities for each cell
     """
 
-    def genPossibilities(self, grid):
+    def genDomain(self, grid):
 
         grid_as_list = list(grid)
 
@@ -150,7 +150,7 @@ class Sudoku:
     """
 
     def isFinished(self):
-        for _, possibilities in self.possibilities.items():
+        for _, possibilities in self.domain.items():
             if len(possibilities) > 1:
                 return False
 
@@ -163,10 +163,10 @@ class Sudoku:
     def __str__(self):
 
         output = ""
-        for v in self.possibilities:
-            if len(self.possibilities[v]) > 1:
+        for v in self.domain:
+            if len(self.domain[v]) > 1:
                 output += "0"
             else:
-                output += str(self.possibilities[v][0])
+                output += str(self.domain[v][0])
 
         return output

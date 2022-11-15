@@ -19,7 +19,7 @@ def main():
     root = tk.Tk()
     root.geometry("720x455")
     root.configure(background='white')
-    root.title("Sudoku Pro")
+    root.title("CP468 A2")
 
     try:
         root.iconbitmap("icon\\sudoku.ico")

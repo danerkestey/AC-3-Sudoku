@@ -20,13 +20,15 @@ def AC3(csp):
         if removeInconsistentVals(csp, cell1, cell2):
 
             # if a cell has 0 possibilities, sudoku has no solution
-            if len(csp.possibilities[cell1]) == 0:
+            if len(csp.domain[cell1]) == 0:
                 return False
 
             for cell in csp.related[cell1]:
                 if cell != cell1:
                     queue.append((cell, cell1))
 
+        # print("AC-3 Domain!!!")
+        # print(csp.domain)
     return True
 
 
@@ -45,13 +47,13 @@ def removeInconsistentVals(csp, cell1, cell2):
     removed = False
 
     # for each possible value remaining for the cell1 cell
-    for value in csp.possibilities[cell1]:
+    for value in csp.domain[cell1]:
 
         # if cell1's value is in conflict with cell2's possibilities for each possibility
-        if not any([isDifferent(value, poss) for poss in csp.possibilities[cell2]]):
+        if not any([isDifferent(value, poss) for poss in csp.domain[cell2]]):
 
             # then remove cell1's value
-            csp.possibilities[cell1].remove(value)
+            csp.domain[cell1].remove(value)
             removed = True
 
     return removed
