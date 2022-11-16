@@ -27,8 +27,8 @@ def AC3(csp):
                 if cell != cell1:
                     queue.append((cell, cell1))
 
-        # print("AC-3 Domain!!!")
-        # print(csp.domain)
+        print("AC-3 Domain!!!")
+        print(csp.domain)
     return True
 
 
