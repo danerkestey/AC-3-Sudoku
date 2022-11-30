@@ -2,15 +2,7 @@
 
 <!-- PROJECT LOGO -->
 <div align="center">
-  <a href="https://github.com/NisheetNakrani/Sudoku-Solver-Pro">
-    <img src="https://user-images.githubusercontent.com/62321150/156771964-3c67ccca-7808-4710-bef4-a91d8fc799a1.png" alt="logo" width="100">
-  </a>
-<h2 aling="center">Sudoku Solver Pro</h2>
-  <p align="center">
-    <a href="https://youtu.be/X6huKg_nkbw?t=60">View Demo</a>
-    ·
-    <a href="https://github.com/NisheetNakrani/Sudoku-Solver-Pro/issues">Report Bug</a>
-  </p>
+<h2 aling="center">AC-3 Sudoku Solver</h2>
 </div>
 
 <div align="center">
